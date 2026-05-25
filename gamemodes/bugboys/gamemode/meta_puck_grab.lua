@@ -202,7 +202,7 @@ function PuckEnt:DoGrab()
 
     --[[
 	if self:GetClass() == "puck_jetpack" then
-		local phys = self.Entity:GetPhysicsObject()
+		local phys = self:GetPhysicsObject()
 			phys:AddAngleVelocity( -1 * phys:GetAngleVelocity( ))
 		return
 	end

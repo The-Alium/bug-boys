@@ -20,7 +20,7 @@ function ENT:Initialize()
     self:SetIfCanGrab( false )
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -210,7 +210,7 @@ function ENT:Think()
                 vec = -vec
             end
 
-            local phys = self.Entity:GetPhysicsObject()
+            local phys = self:GetPhysicsObject()
             phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
             self.JustStoppedTurning = true
@@ -231,7 +231,7 @@ function ENT:Think()
                 vec = -vec
             end
 
-            local phys = self.Entity:GetPhysicsObject()
+            local phys = self:GetPhysicsObject()
             phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
 
@@ -297,7 +297,7 @@ function ENT:Think()
 
     --[[
 	if turning == false and self.JustStoppedTurning == true then
-		local phys = self.Entity:GetPhysicsObject()
+		local phys = self:GetPhysicsObject()
 			phys:AddAngleVelocity( -1 * phys:GetAngleVelocity( ))
 		self.JustStoppedTurning	= false
 	end
@@ -305,13 +305,13 @@ function ENT:Think()
 
     --
     if self:DestroyerOnGround() and turning == false then
-        local phys = self.Entity:GetPhysicsObject()
+        local phys = self:GetPhysicsObject()
         phys:AddAngleVelocity( -.1 * phys:GetAngleVelocity() )
     end
 
     --
 
-    -- local phys = self.Entity:GetPhysicsObject()
+    -- local phys = self:GetPhysicsObject()
     -- 	phys:AddAngleVelocity( -1 * phys:GetAngleVelocity( ))
 
 
@@ -367,7 +367,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 

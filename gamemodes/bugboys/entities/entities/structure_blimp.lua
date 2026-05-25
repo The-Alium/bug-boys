@@ -22,7 +22,7 @@ function ENT:Initialize()
     self:Transparency_Set( 160 )
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -259,7 +259,7 @@ function ENT:Think()
 
     --keep it upright
     -- if self:PuckTable_HasPucks() == true then
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
     phys:AddAngleVelocity( -1 * phys:GetAngleVelocity() )
     -- phys:SetAngles( Angle(0, 0, 0))
     -- end
@@ -325,7 +325,7 @@ function ENT:Think()
 
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 

@@ -8,23 +8,23 @@ ENT.Base = "base_puck"
 function ENT:Initialize()
     self:SpecialInit()
 
-    if not  SERVER then return end
+    if not SERVER then return end
 
     --give the player this class's SWEP
     self.Owner:Give( self.Ref.swep )
 
 
     -- Set model and physics
-    self.Entity:SetModel( self.Ref.model )
-    self.Entity:PhysicsInit( SOLID_VPHYSICS )
-    self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
-    self.Entity:SetSolid( SOLID_VPHYSICS )
-    self.Entity:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+    self:SetModel( self.Ref.model )
+    self:PhysicsInit( SOLID_VPHYSICS )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --set to be slidy
     phys:SetMaterial( "gmod_ice" )
@@ -58,7 +58,7 @@ function ENT:Initialize()
     self.Upsidedown_Frames = 0
 end
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -102,7 +102,7 @@ function ENT:Think()
     -- ---------------------------------------------------------------Owner:PrintMessage( HUD_PRINTCENTER, tostring(speed) )
 
     -- We need to update the player position at the melon or bad thing happens D:
-    Owner:SetPos( self.Entity:GetPos() )
+    Owner:SetPos( self:GetPos() )
 
 
     self.CurrentPos = self:GetPos()
@@ -182,11 +182,11 @@ function ENT:Think()
                 end
 
                 if enemysqueal == false then
-                    -- self.Entity:EmitSound( "npc/headcrab_poison/ph_idle"..math.random(1, 3)..".wav", 100, 100)
-                    self.Entity:EmitSound( "npc/headcrab_poison/ph_talk" .. math.random( 1, 3 ) .. ".wav", 85, 130 )
+                    -- self:EmitSound( "npc/headcrab_poison/ph_idle"..math.random(1, 3)..".wav", 100, 100)
+                    self:EmitSound( "npc/headcrab_poison/ph_talk" .. math.random( 1, 3 ) .. ".wav", 85, 130 )
                     self.NoiseTimer = CurTime() + self.Ref.noise_cooldown
                 else
-                    self.Entity:EmitSound( "npc/headcrab_poison/ph_scream" .. math.random( 1, 3 ) .. ".wav", 85, 130 )
+                    self:EmitSound( "npc/headcrab_poison/ph_scream" .. math.random( 1, 3 ) .. ".wav", 85, 130 )
                     self.NoiseTimer = CurTime() + self.Ref.noise_cooldown_scream
                 end
 
@@ -263,7 +263,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 

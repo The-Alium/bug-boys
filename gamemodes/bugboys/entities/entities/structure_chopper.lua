@@ -22,7 +22,7 @@ function ENT:Initialize()
     self:Transparency_Set( 160 )
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -317,7 +317,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 
@@ -513,7 +513,7 @@ end
 function ENT:PhysicsCollide( Data, PhysObj )
     -- Play sound, depending on speed
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-    -- self.Entity:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+    -- self:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
     -- end
 
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) then
@@ -526,7 +526,7 @@ function ENT:PhysicsCollide( Data, PhysObj )
 
 
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-    -- self.Entity:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+    -- self:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
     -- end
 
     --do force or fall damage

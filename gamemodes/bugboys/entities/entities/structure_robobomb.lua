@@ -4,7 +4,7 @@ ENT.Type        = "anim"
 ENT.Base        = "base_bbentity"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -21,14 +21,14 @@ function ENT:Initialize()
     self:ChangePhysicsModel( self.Ref.model, COLLISION_GROUP_WEAPON, self.Ref.mass )
 
     --set to be slidy
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
     -- phys:SetMaterial("default")
     phys:SetMaterial( "gmod_ice" )
 end
 
 --triggers the robot to start looking for people to chase
 function ENT:RayTrigger( activator )
-    if not  SERVER then return end
+    if not SERVER then return end
 
     if self.Triggered ~= true then
         self.Triggered = true

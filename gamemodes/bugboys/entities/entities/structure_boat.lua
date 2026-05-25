@@ -4,7 +4,7 @@ ENT.Type = "anim"
 ENT.Base = "base_bbentity"
 -- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -20,7 +20,7 @@ function ENT:Initialize()
     self:SetIfCanGrab( false )
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -48,7 +48,7 @@ end
 
 --triggers the bug to attach to the boat
 function ENT:RayTrigger( activator )
-    if not  SERVER then return end
+    if not SERVER then return end
 
     --if the puck isnt yet attached
     if self:PuckTable_HasThis( activator.Puck ) ~= true then
@@ -225,7 +225,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 
@@ -409,7 +409,7 @@ function ENT:PuckTable_HasPucks()
 end
 
 function ENT:OnRemove()
-    if not  SERVER then return end
+    if not SERVER then return end
 
     if self.LoopingSound_A ~= nil then
         self.LoopingSound_A:Stop()

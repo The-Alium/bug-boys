@@ -21,7 +21,7 @@ function ENT:Initialize()
 
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -141,7 +141,7 @@ function ENT:Think()
         -- Check which key is pressed and move accordingly
         if (ply:KeyDown( IN_FORWARD )) then
             local vec = Vector( 0, 0, -30 )
-            local phys = self.Entity:GetPhysicsObject()
+            local phys = self:GetPhysicsObject()
             phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
             input_thisframe = true
@@ -160,7 +160,7 @@ function ENT:Think()
 			--]]
             local vec = Vector( 0, 0, 30 )
 
-            local phys = self.Entity:GetPhysicsObject()
+            local phys = self:GetPhysicsObject()
             phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
 
@@ -172,7 +172,7 @@ function ENT:Think()
             if speed < 3000 then
                 local vec = Vector( 0, 60, 0 )
 
-                local phys = self.Entity:GetPhysicsObject()
+                local phys = self:GetPhysicsObject()
                 phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
             else
@@ -194,7 +194,7 @@ function ENT:Think()
             if speed < 3000 then
                 local vec = Vector( 0, -60, 0 )
 
-                local phys = self.Entity:GetPhysicsObject()
+                local phys = self:GetPhysicsObject()
                 phys:AddAngleVelocity( (-1 * phys:GetAngleVelocity()) + vec )
 
             else
@@ -356,7 +356,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 
@@ -550,13 +550,13 @@ end
 function ENT:PhysicsCollide(Data, PhysObj)
 	-- Play sound, depending on speed
 	-- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-		-- self.Entity:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+		-- self:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
 	-- end
 
 	if self:PuckTable_HasPucks() ~= true then return end
 
 	if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-		self.Entity:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+		self:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
 	end
 
 	--do force or fall damage

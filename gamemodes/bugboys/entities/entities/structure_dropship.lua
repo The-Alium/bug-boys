@@ -4,7 +4,7 @@ ENT.Type = "anim"
 ENT.Base = "base_bbentity"
 -- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -20,7 +20,7 @@ function ENT:Initialize()
     self:SetIfCanGrab( false )
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -54,7 +54,7 @@ end
 
 --triggers the bug to attach to the boat
 function ENT:RayTrigger( activator )
-    if not  SERVER then return end
+    if not SERVER then return end
 
     --if the puck isnt yet attached
     if self:PuckTable_HasThis( activator.Puck ) ~= true then
@@ -285,7 +285,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 
@@ -482,7 +482,7 @@ function ENT:PuckTable_HasPucks()
 end
 
 function ENT:OnRemove()
-    if not  SERVER then return end
+    if not SERVER then return end
 
     if self.LoopingSound_A ~= nil then
         self.LoopingSound_A:Stop()
@@ -501,7 +501,7 @@ end
 function ENT:PhysicsCollide( Data, PhysObj )
     -- Play sound, depending on speed
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-    -- self.Entity:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+    -- self:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
     -- end
 
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) then
@@ -514,7 +514,7 @@ function ENT:PhysicsCollide( Data, PhysObj )
 
 
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-    -- self.Entity:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+    -- self:EmitSound("physics/metal/metal_grate_impact_hard"..math.random(1, 3)..".wav", 100, 100)
     -- end
 
     --do force or fall damage

@@ -3,7 +3,7 @@ AddCSLuaFile( "puck_tank.lua" )
 ENT.Type = "anim"
 ENT.Base = "base_puck"
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -20,16 +20,16 @@ function ENT:Initialize()
 
 
     -- Set model and physics
-    self.Entity:SetModel( self.Ref.model )
-    self.Entity:PhysicsInit( SOLID_VPHYSICS )
-    self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
-    self.Entity:SetSolid( SOLID_VPHYSICS )
-    self.Entity:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+    self:SetModel( self.Ref.model )
+    self:PhysicsInit( SOLID_VPHYSICS )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
 
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --correct angles, tire on its side
     phys:SetAngles( Angle( 0, 0, 90 ) )
@@ -81,7 +81,7 @@ function ENT:Think()
 
 
     -- We need to update the player position at the puck
-    Owner:SetPos( self.Entity:GetPos() )
+    Owner:SetPos( self:GetPos() )
     self.CurrentPos = self:GetPos()
 
 
@@ -208,7 +208,7 @@ function ENT:Think()
     end
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 

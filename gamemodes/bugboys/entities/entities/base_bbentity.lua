@@ -227,7 +227,7 @@ function ENT:OnTakeDamage( damageinfo )
         -- self:EmitSound( "physics/metal/metal_box_break1.wav", 100, 25 + (thing*120), 1, CHAN_AUTO )
         self:EmitSound( "physics/metal/metal_box_break1.wav", 100, 100, 1, CHAN_AUTO )
 
-        -- self.Entity:EmitSound("physics/glass/glass_impact_bullet1.wav")
+        -- self:EmitSound("physics/glass/glass_impact_bullet1.wav")
     elseif newhealth > health then
         self:EmitSound( "buttons/button19.wav" )
     end
@@ -263,7 +263,7 @@ function ENT:Break()
     -- ParticleEffect("ExplosionCore_MidAir",self:GetPos(),Angle(0,0,0),nil)
 
     self:Remove()
-    -- self.Entity:EmitSound("physics/glass/glass_largesheet_break1.wav")
+    -- self:EmitSound("physics/glass/glass_largesheet_break1.wav")
 end
 
 function ENT:FlashWhite( time )

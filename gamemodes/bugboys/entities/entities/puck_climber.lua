@@ -8,18 +8,18 @@ ENT.Base = "base_puck"
 function ENT:Initialize()
     self:SpecialInit()
 
-    if not  SERVER then return end
+    if not SERVER then return end
 
     --give the player this class's SWEP
     self.Owner:Give( self.Ref.swep )
 
 
     -- Set model and physics
-    self.Entity:SetModel( self.Ref.model )
-    self.Entity:PhysicsInit( SOLID_VPHYSICS )
-    self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
-    self.Entity:SetSolid( SOLID_VPHYSICS )
-    self.Entity:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+    self:SetModel( self.Ref.model )
+    self:PhysicsInit( SOLID_VPHYSICS )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 
     --set team color
     if self.Owner:Team() == TEAM_RED then
@@ -29,7 +29,7 @@ function ENT:Initialize()
     end
 
     -- Wake our physics
-    local phys = self.Entity:GetPhysicsObject()
+    local phys = self:GetPhysicsObject()
 
     --set to be slidy
     phys:SetMaterial( "gmod_ice" )
@@ -58,7 +58,7 @@ function ENT:Initialize()
     self.WallGrabTimer = 0
 end
 
-if not  SERVER then return end
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
@@ -94,7 +94,7 @@ function ENT:Think()
     -- ---------------------------------------------------------------Owner:PrintMessage( HUD_PRINTCENTER, tostring(speed) )
 
     -- We need to update the player position at the melon or bad thing happens D:
-    Owner:SetPos( self.Entity:GetPos() )
+    Owner:SetPos( self:GetPos() )
 
 
     self.CurrentPos = self:GetPos()
@@ -197,7 +197,7 @@ function ENT:Think()
 
 
     -- Call the think every frame
-    self.Entity:NextThink( CurTime() )
+    self:NextThink( CurTime() )
     return true
 end
 
@@ -341,7 +341,7 @@ end
 function ENT:PhysicsCollide( Data, PhysObj )
     -- Play sound, depending on speed
     if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-        self.Entity:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
+        self:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
     end
 
     if self.SlamGround == true then

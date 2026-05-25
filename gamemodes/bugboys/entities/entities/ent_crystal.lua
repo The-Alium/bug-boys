@@ -18,7 +18,7 @@ function ENT:Initialize()
     self:ChangePhysicsModel( self.Ref.model, COLLISION_GROUP_WEAPON, self.Ref.mass )
 
     --set to be slidy
-    -- local phys = self.Entity:GetPhysicsObject()
+    -- local phys = self:GetPhysicsObject()
     -- phys:SetMaterial("gmod_ice")
 
     self.CraftToEnt = nil
