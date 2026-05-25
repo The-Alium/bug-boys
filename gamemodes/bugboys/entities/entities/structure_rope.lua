@@ -2,10 +2,10 @@ AddCSLuaFile("structure_rope.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------

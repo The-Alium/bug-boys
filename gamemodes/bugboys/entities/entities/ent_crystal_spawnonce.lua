@@ -22,11 +22,11 @@ function ENT:Draw()
 end
 
 
-//function ENT:Think()
-//end
+-- function ENT:Think()
+-- end
 
 
 
-//for _, v in pairs(player.GetAll()) do
-	//v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
-//end
+-- for _, v in pairs(player.GetAll()) do
+	-- v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
+-- end

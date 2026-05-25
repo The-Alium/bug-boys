@@ -4,7 +4,7 @@ ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ end
 
 --trigger it to turn into the big platform
 function ENT:RayTrigger( activator )
-	if !SERVER then return end
+	if not SERVER then return end
 	
 	self:SetAngles( angle )
 	

@@ -7,7 +7,7 @@ ENT.Time = nil
 ENT.GlobalIntName = nil
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------

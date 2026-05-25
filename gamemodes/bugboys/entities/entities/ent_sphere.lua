@@ -2,11 +2,11 @@ AddCSLuaFile("ent_sphere.lua")
 
 DEFINE_BASECLASS( "base_anim" )
 
-//ENT.Type 			= "anim"
-//ENT.Base 			= "base_bbentity"
+-- ENT.Type 			= "anim"
+-- ENT.Base 			= "base_bbentity"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-//if !SERVER then return end
+-- if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ end
 
 
 function ENT:Initialize()
-	if !SERVER then return end
+	if not SERVER then return end
 
 	self:DrawShadow( false )
 	

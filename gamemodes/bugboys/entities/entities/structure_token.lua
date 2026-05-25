@@ -2,17 +2,17 @@ AddCSLuaFile("structure_token.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 
 
 
 function ENT:Draw()
-	//local distance = LocalPlayer():EyePos():Distance( self:GetPos() )
-	//if distance < 1000 then
+	-- local distance = LocalPlayer():EyePos():Distance( self:GetPos() )
+	-- if distance < 1000 then
 		self:DrawModel()
-	//end
-	//self:DrawShadow( false )
+	-- end
+	-- self:DrawShadow( false )
 end
 
 
@@ -29,7 +29,7 @@ end
 
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ end
 
 
 function ENT:Think()
-	if self.CanPickup != true then return end
+	if self.CanPickup ~= true then return end
 	
 	--change the model if its worth more than 1
 	if self:GetModel() == self.Ref.model and self.Amount > 1 then
@@ -76,9 +76,9 @@ function ENT:Think()
 	self:SetAmountDisplay( self.Amount )
 	
 	
-	//print("token think")
-	//self:NextThink( CurTime() + self.Ref.think_rate )
-	//return true
+	-- print("token think")
+	-- self:NextThink( CurTime() + self.Ref.think_rate )
+	-- return true
 end
 
 
@@ -86,7 +86,7 @@ end
 function ENT:StartEffect( ply )
 	ply:AddTokens( self.Amount )
 	
-	if self.Generator != nil and IsValid(self.Generator) then
+	if self.Generator ~= nil and IsValid(self.Generator) then
 		self.Generator:TokenCallback( self )
 	end
 	
@@ -102,20 +102,20 @@ end
 
 --makes this token worth more than it is at the moment
 function ENT:AddInstance( add )
-	if add != nil then
+	if add ~= nil then
 		self.Amount = self.Amount + add
 	else
 		self.Amount = self.Amount + 1
 	end
 	
-	//self:SetAmountDisplay( self.Amount )
+	-- self:SetAmountDisplay( self.Amount )
 end
 
 
 
-//tells the spawner, this token is gone, so open up the position its in
+-- tells the spawner, this token is gone, so open up the position its in
 function ENT:OnRemove()
-	if self.Generator != nil and IsValid(self.Generator) then
+	if self.Generator ~= nil and IsValid(self.Generator) then
 		self.Generator:TokenCallback( self )
 	end
 end

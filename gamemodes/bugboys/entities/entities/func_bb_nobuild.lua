@@ -4,12 +4,12 @@ ENT.PrintName		= ""
 
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
 
-//ENT.TouchingEntList = {}
+-- ENT.TouchingEntList = {}
 
 
 

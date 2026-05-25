@@ -2,9 +2,9 @@ AddCSLuaFile("structure_heatsentry.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -17,11 +17,11 @@ function ENT:Initialize()
 	self:SpecialInit()
 	
 	self:ChangeStaticModel( self.Ref.model, COLLISION_GROUP_WEAPON )
-	//self:EmitSound( self.Ref.sound_collisionson )
+	-- self:EmitSound( self.Ref.sound_collisionson )
 	
 	--start looping sound
-	//self.LoopingSound_A = CreateSound( self, self.Ref.sound_loop )
-	//self.LoopingSound_A:Play()
+	-- self.LoopingSound_A = CreateSound( self, self.Ref.sound_loop )
+	-- self.LoopingSound_A:Play()
 	
 	self.BeepTimer = 0
 	self.ShootTimer = 0
@@ -31,7 +31,7 @@ end
 
 --triggers the block to go unsolid for a moment, only possible while frozen
 function ENT:RayTrigger( activator )
-	if !SERVER then return end
+	if not SERVER then return end
 
 end
 
@@ -80,7 +80,7 @@ function ENT:Shoot( )
 		obj.CreatorSwep = self
 		
 		obj:SetOwner(self.Creator)
-		//obj:SetAngles( self.Owner:EyeAngles() )
+		-- obj:SetAngles( self.Owner:EyeAngles() )
 		obj:Spawn()
 		obj:NoCollideTeam()
 	
@@ -104,9 +104,9 @@ function ENT:CheckTargetTrace()
 		Trace.start = self:GetPos() + Vector(0, 0, 50)
 		Trace.endpos = self.SentryTarget:GetPos()
 		Trace.filter = self
-		Trace.mask = MASK_SOLID //- CONTENTS_GRATE
+		Trace.mask = MASK_SOLID -- - CONTENTS_GRATE
 		Trace = util.TraceLine(Trace) 
-	if (Trace.Entity) != self.SentryTarget then
+	if (Trace.Entity) ~= self.SentryTarget then
 		return false
 	end
 	
@@ -116,7 +116,7 @@ function ENT:CheckTargetTrace()
 		local entpos = thing:GetPos()
 		local selfpos = self:GetPos()
 	
-		if self.SentryTarget == thing then//and heightdif < self.Ref.max_target_height then
+		if self.SentryTarget == thing then-- and heightdif < self.Ref.max_target_height then
 			return true
 		end
 	end
@@ -136,13 +136,13 @@ function ENT:Think()
 			local entpos = ent:GetPos()
 			local selfpos = self:GetPos()
 			if ent:IsValidPlyBug() and ent.BBTeam == GetOppositeTeam(self.BBTeam) then
-			//if ent:IsValidPuck() and ent.BBTeam == GetOppositeTeam(self.BBTeam) then
+			-- if ent:IsValidPuck() and ent.BBTeam == GetOppositeTeam(self.BBTeam) then
 				-- Make a trace to see if it can shoot this puck
 				local Trace = {}
 					Trace.start = self:GetPos() + Vector(0, 0, 50)
 					Trace.endpos = ent:GetPos()
 					Trace.filter = self
-					Trace.mask = MASK_SOLID //- CONTENTS_GRATE
+					Trace.mask = MASK_SOLID -- - CONTENTS_GRATE
 					Trace = util.TraceLine(Trace) 
 				
 				local hit = false

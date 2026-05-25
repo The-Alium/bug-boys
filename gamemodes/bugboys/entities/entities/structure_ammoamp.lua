@@ -2,9 +2,9 @@ AddCSLuaFile("structure_ammoamp.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -14,12 +14,12 @@ local angle = Angle( 0, 0, 0 )
 function ENT:Initialize()
 	self:SpecialInit()
 	
-	//self:ChangePhysicsModel( self.Ref.model, COLLISION_GROUP_WEAPON, self.Ref.mass )
+	-- self:ChangePhysicsModel( self.Ref.model, COLLISION_GROUP_WEAPON, self.Ref.mass )
 	self:ChangeStaticModel( self.Ref.model, COLLISION_GROUP_WEAPON )
 	
 	--set to be slidy
-	//local phys = self.Entity:GetPhysicsObject()
-		//phys:SetMaterial("gmod_ice")
+	-- local phys = self.Entity:GetPhysicsObject()
+		-- phys:SetMaterial("gmod_ice")
 	
 	self.TouchingPlyList = {}
 	self.Active = true
@@ -41,7 +41,7 @@ end
 
 
 function ENT:Think()
-	if self.Active != true then return end
+	if self.Active ~= true then return end
 
 	--deal flat damage to an ent
 	local function IncreaseAmmo( puck )

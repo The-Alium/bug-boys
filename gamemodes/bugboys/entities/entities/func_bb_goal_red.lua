@@ -4,12 +4,12 @@ ENT.PrintName		= ""
 
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
 
-//ENT.TouchingPlyList = {}
+-- ENT.TouchingPlyList = {}
 
 
 
@@ -20,10 +20,10 @@ end
 
 function ENT:StartTouch( entity )
 	--if the touching ent is a point piece, give the correct team a point for getting it in there
-	if entity:GetClass() == "ent_crystal" then //and entity.BBTeam == TEAM_BLUE  then 
+	if entity:GetClass() == "ent_crystal" then -- and entity.BBTeam == TEAM_BLUE  then 
 		if GetGamePhase() == "BegunGame" then
 			--add points for the enemy team
-			print("blue team SCORES!")
+			print("blue team SCORESnot ")
 			PlayGlobalSound( "Sound_TeamScore" )
 			team.AddScore ( TEAM_BLUE, 1 )
 		end
@@ -45,11 +45,11 @@ function ENT:StartTouch( entity )
 end
 
 
-//function ENT:Think()
-//end
+-- function ENT:Think()
+-- end
 
 
 
-//for _, v in pairs(player.GetAll()) do
-	//v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
-//end
+-- for _, v in pairs(player.GetAll()) do
+	-- v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
+-- end

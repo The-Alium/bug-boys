@@ -1,84 +1,79 @@
-//AddCSLuaFile("func_bb_healer.lua")
+-- AddCSLuaFile("func_bb_healer.lua")
 
-ENT.Type 			= "brush"
-ENT.Base 			= "base_anim"
-ENT.PrintName		= ""
+ENT.Type      = "brush"
+ENT.Base      = "base_anim"
+ENT.PrintName = ""
 
 
+if not  SERVER then return end
 
-if !SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
 
-//ENT.TouchingPlyList = {}
+-- ENT.TouchingPlyList = {}
 
 
 
 function ENT:Initialize()
-	self.TouchingPlyList = {}
+    self.TouchingPlyList = {}
 end
-
 
 function ENT:EmptyTable()
-	table.Empty( self.TouchingPlyList )
+    table.Empty( self.TouchingPlyList )
 end
 
-
-
 function ENT:StartTouch( entity )
-	if entity:IsValidPuck() then
-		//if entity.BBTeam == TEAM_RED then
-			table.insert( self.TouchingPlyList, entity )
-		//end
-	end
+    if entity:IsValidPuck() then
+        -- if entity.BBTeam == TEAM_RED then
+        table.insert( self.TouchingPlyList, entity )
+        -- end
+    end
 end
 
 function ENT:EndTouch( entity )
-	if entity:IsValidPuck() then
-		//if entity.BBTeam == TEAM_RED then
-			table.RemoveByValue( self.TouchingPlyList, entity )
-		//end
-	end
+    if entity:IsValidPuck() then
+        -- if entity.BBTeam == TEAM_RED then
+        table.RemoveByValue( self.TouchingPlyList, entity )
+        -- end
+    end
 end
 
 function ENT:Think()
-	//print( table.ToString(self.TouchingPlyList) )
-	
-	--deal flat damage to an ent
-	local function HealEnt( ent )
-		//print(ent:Health())
-		local dmginfo = DamageInfo()
-			dmginfo:SetDamage( -3 )
-			//dmginfo:SetDamageType( DMG_CRUSH )
-			dmginfo:SetInflictor( self )
-			dmginfo:SetAttacker( self )
-		ent:TakeDamageInfo( dmginfo )
-	end
-	
-	--[[
+    -- print( table.ToString(self.TouchingPlyList) )
+
+    --deal flat damage to an ent
+    local function HealEnt( ent )
+        -- print(ent:Health())
+        local dmginfo = DamageInfo()
+        dmginfo:SetDamage( -3 )
+        -- dmginfo:SetDamageType( DMG_CRUSH )
+        dmginfo:SetInflictor( self )
+        dmginfo:SetAttacker( self )
+        ent:TakeDamageInfo( dmginfo )
+    end
+
+    --[[
 	local function HurtEnt( ent )
 		local health = ent:Health()
 		print(health)
 		ent:SetHealth( health - 10 )
 	end
-	]]--
-	
-	
-	--hurt all the pucks that are touching the lava
-	for k,ent in pairs( self.TouchingPlyList ) do
-		//print("hurting:  " .. ent:GetClass())
-		if ent.BBTeam == TEAM_RED then
-			HealEnt( ent )
-		else
-			ent:HurtEnt( 10, self, self )
-		end
-	end 
-	
+	--]]
+
+
+    --hurt all the pucks that are touching the lava
+    for k, ent in pairs( self.TouchingPlyList ) do
+        -- print("hurting:  " .. ent:GetClass())
+        if ent.BBTeam == TEAM_RED then
+            HealEnt( ent )
+        else
+            ent:HurtEnt( 10, self, self )
+        end
+    end
+
 end
 
-
-
-//for _, v in pairs(player.GetAll()) do
-	//v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
-//end
+-- for _, v in pairs(player.GetAll()) do
+-- v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
+-- end

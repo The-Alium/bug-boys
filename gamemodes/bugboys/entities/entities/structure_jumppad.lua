@@ -2,9 +2,9 @@ AddCSLuaFile("structure_jumppad.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -18,8 +18,8 @@ function ENT:Initialize()
 
 	self:ChangeStaticModel( self.Ref.model, COLLISION_GROUP_WEAPON )
 	
-	//local phys = self.Entity:GetPhysicsObject()
-		//phys:SetAngles( Angle(0, 0, 90))
+	-- local phys = self.Entity:GetPhysicsObject()
+		-- phys:SetAngles( Angle(0, 0, 90))
 end
 
 
@@ -39,13 +39,13 @@ function ENT:AttemptJump( puck )
 		end
 	end
 	
-	puck.Owner:ChatPrint( "You must stand closer to use this!")
+	puck.Owner:ChatPrint( "You must stand closer to use thisnot ")
 	return false
 end
 
 
 function ENT:RayTrigger( activator )
-	if !SERVER then return end
+	if not SERVER then return end
 	
 	--if on cooldown..
 	if self.TriggerCooldownTimer > CurTime() then 
@@ -56,7 +56,7 @@ function ENT:RayTrigger( activator )
 	
 	--if NOT on cooldown..
 	elseif self.TriggerCooldownTimer < CurTime() then  
-		//self:EmitSound( self.Ref.sound_collisionsoff )
+		-- self:EmitSound( self.Ref.sound_collisionsoff )
 		
 		if self:AttemptJump( activator.Puck ) then
 			self.TriggerCooldownTimer =  CurTime() + self.Ref.trigger_cooldown

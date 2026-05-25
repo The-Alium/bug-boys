@@ -1,46 +1,42 @@
-/*---------------------------------------------------------
-	Puck class base table
----------------------------------------------------------*/
-
-PUCK_TABLE = 
-{
-
-
-puck_smallman =
-{
-name = "puck_smallman",
-print_name = "Engineer",
---model = "models/props_vehicles/carparts_tire01a.mdl",
---model = "models/props_2fort/trainwheel001.mdl",
-model = "models/bugboys/engineer.mdl",
-//model = "models/props_vehicles/apc_tire001.mdl",
---model = "models/hitchswing/grappler.mdl",
---model = "models/props_2fort/tire001.mdl", --regularly positioned model version
---model = "models/props_vehicles/tire001a_tractor.mdl",
---model = "models/props_vehicles/tire001b_truck.mdl",
-swep = "swep_smallman",
-health = 100, --125
-cam_dist = 120, --120
-cam_height = 75, --50
-speed_max = 270,
-force_add = 2000, --1200, doing an experiment with this number
-craft_dist = 400, --350
-zap_dist = 100,
-zap_trigger_dist = 3000,
-mass = 200,
-speed_jump = 63000, --60000
-height_spawn = 10,
-radius_weld = 50,
-jump_cooldown = 3,
-noise_cooldown = .7,
-noise_cooldown_scream = 2,
-
-ungrab_dist = 80,
-override_ctrl_off = true,
-}
-,
-
 --[[
+	Puck class base table
+--]]
+
+PUCK_TABLE = {
+
+    puck_smallman = {
+        name = "puck_smallman",
+        print_name = "Engineer",
+        --model = "models/props_vehicles/carparts_tire01a.mdl",
+        --model = "models/props_2fort/trainwheel001.mdl",
+        model = "models/bugboys/engineer.mdl",
+        -- model = "models/props_vehicles/apc_tire001.mdl",
+        --model = "models/hitchswing/grappler.mdl",
+        --model = "models/props_2fort/tire001.mdl", --regularly positioned model version
+        --model = "models/props_vehicles/tire001a_tractor.mdl",
+        --model = "models/props_vehicles/tire001b_truck.mdl",
+        swep = "swep_smallman",
+        health = 100,     --125
+        cam_dist = 120,   --120
+        cam_height = 75,  --50
+        speed_max = 270,
+        force_add = 2000, --1200, doing an experiment with this number
+        craft_dist = 400, --350
+        zap_dist = 100,
+        zap_trigger_dist = 3000,
+        mass = 200,
+        speed_jump = 63000, --60000
+        height_spawn = 10,
+        radius_weld = 50,
+        jump_cooldown = 3,
+        noise_cooldown = .7,
+        noise_cooldown_scream = 2,
+
+        ungrab_dist = 80,
+        override_ctrl_off = true,
+    },
+
+    --[[
 puck_blimp =
 {
 name = "puck_blimp",
@@ -72,7 +68,7 @@ puck_tank =
 {
 name = "puck_tank",
 print_name = "Tank",
-//model = "models/props_wasteland/wheel02b.mdl",
+-- model = "models/props_wasteland/wheel02b.mdl",
 model = "models/bugboys/tank.mdl",
 --model = "models/tacticaltoolgame_models/boulder01.mdl",
 swep = "swep_tank",
@@ -195,52 +191,35 @@ jetpack_cooldown = .5,
 }
 ,
 
-]]--
+--]]
 
 }
 
 --recieves an actual ent, not the string name of one
-function CheckIfInPuckTable(ent)
-	for _, value in pairs( PUCK_TABLE ) do		--/check if the ent is one of the the games's objects
-		if value.name == ent:GetClass() then
-			return true
-		end
-	end
-	return false
+function CheckIfInPuckTable( ent )
+    return PUCK_TABLE[ ent:GetClass() ] ~= nil
 end
 
-
-function PuckReference( entstring )		--returns the ent from the main table of stats for easy reference
-	local ref = nil
-	for _, ent in pairs( PUCK_TABLE ) do
-		if ent.name == entstring then
-			ref = ent
-		end
-	end
-	return ref
+function PuckReference( entstring ) --returns the ent from the main table of stats for easy reference
+    return PUCK_TABLE[ entstring ]
 end
 
+function ConvertToName_Puck( printname )
+    for _, puck in pairs( PUCK_TABLE ) do
+        if puck.print_name == printname then
+            return puck.name
+        end
+    end
 
-//returns the name of the puck, based on the print name
-function ConvertToName_Puck(printname)	
-	local name = nil
-	for _, puck in pairs(PUCK_TABLE) do
-		if puck.print_name == printname then
-			name = puck.name
-			return name
-		end
-	end
-	return "invalid puck name"
+    return "invalid puck name"
 end
 
+function ConvertToPrintName_Puck( toolname ) -- returns the print name of the input tool name
+    for _, tool in pairs( PUCK_TABLE ) do
+        if tool.name == toolname then
+            return tool.print_name
+        end
+    end
 
-function ConvertToPrintName_Puck( toolname )	//returns the print name of the input tool name
-	local printname = nil
-	for _, tool in pairs(PUCK_TABLE) do
-		if tool.name == toolname then
-			printname = tool.print_name
-			return printname
-		end
-	end
-	return "invalid tool name"
+    return "invalid tool name"
 end

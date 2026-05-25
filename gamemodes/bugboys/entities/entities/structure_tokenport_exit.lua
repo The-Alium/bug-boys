@@ -2,14 +2,14 @@ AddCSLuaFile("structure_tokenport_exit.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 
 
 function ENT:SetPartnerEnt( ent )
-	//if SERVER then
+	-- if SERVER then
 		self.EntranceEnt = ent
-	//end
+	-- end
 	self:SetNWEntity( "Partner", ent ) 
 end
 
@@ -20,7 +20,7 @@ end
 
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ end
 function ENT:Import( amount )
 
 	--add to the current tokens amount, so the token is worth 1 more
-	if self.LastSpawnedToken != nil and IsValid(self.LastSpawnedToken) then
+	if self.LastSpawnedToken ~= nil and IsValid(self.LastSpawnedToken) then
 		self.LastSpawnedToken:AddInstance( amount )
 	
 	
@@ -68,8 +68,8 @@ function ENT:Import( amount )
 			newent.Amount = amount
 			newent:Spawn()
 			
-			//local add = amount - 1
-			//newent:AddInstance( add )
+			-- local add = amount - 1
+			-- newent:AddInstance( add )
 			
 		self.LastSpawnedToken = newent	
 	end

@@ -2,9 +2,9 @@ AddCSLuaFile("structure_sentryaa.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -17,12 +17,12 @@ function ENT:Initialize()
 	self:SpecialInit()
 	
 	self:ChangeStaticModel( self.Ref.model, COLLISION_GROUP_WEAPON )
-	//self:EmitSound( self.Ref.sound_collisionson )
+	-- self:EmitSound( self.Ref.sound_collisionson )
 end
 
 --triggers the block to go unsolid for a moment, only possible while frozen
 function ENT:RayTrigger( activator )
-	if !SERVER then return end
+	if not SERVER then return end
 
 end
 
@@ -50,7 +50,7 @@ function ENT:Shoot( )
 
 	
 	local self_vec = self:GetPos() + Vector(0, 0, self.Ref.height_gun)
-	local target_vec = self.SentryTarget:GetPos() //+ Vector(0, 0, self.Ref.height_gun)
+	local target_vec = self.SentryTarget:GetPos() -- + Vector(0, 0, self.Ref.height_gun)
 	
 	local shoot_ang = ( target_vec - self_vec):GetNormal()
 	local rot = Angle(0, 0, 0)
@@ -59,12 +59,12 @@ function ENT:Shoot( )
 	
 	local bullet = {}
 		bullet.Num 		= 1
-		bullet.Src 		= self:GetPos() + Vector(0, 0, self.Ref.height_gun)	// Source
-		bullet.Dir 		= shoot_ang	// Dir of bullet
-		bullet.Spread 	= Vector( self.Ref.aim_cone, self.Ref.aim_cone, 0 )		// Aim Cone
-		bullet.Tracer	= 1	// Show a tracer on every x bullets 
-		bullet.TracerName = "Tracer" // what Tracer Effect should be used
-		bullet.Force	= 0	// Amount of force to give to phys objects
+		bullet.Src 		= self:GetPos() + Vector(0, 0, self.Ref.height_gun)	--  Source
+		bullet.Dir 		= shoot_ang	--  Dir of bullet
+		bullet.Spread 	= Vector( self.Ref.aim_cone, self.Ref.aim_cone, 0 )		--  Aim Cone
+		bullet.Tracer	= 1	--  Show a tracer on every x bullets 
+		bullet.TracerName = "Tracer" --  what Tracer Effect should be used
+		bullet.Force	= 0	--  Amount of force to give to phys objects
 		bullet.Damage	= self.Ref.bullet_damage
 		bullet.AmmoType = "Pistol"
 	
@@ -86,9 +86,9 @@ function ENT:CheckTargetTrace()
 		Trace.start = self:GetPos() + Vector(0, 0, self.Ref.height_gun)
 		Trace.endpos = self.SentryTarget:GetPos()
 		Trace.filter = self
-		Trace.mask = MASK_SOLID //- CONTENTS_GRATE
+		Trace.mask = MASK_SOLID -- - CONTENTS_GRATE
 		Trace = util.TraceLine(Trace) 
-	if (Trace.Entity) != self.SentryTarget then
+	if (Trace.Entity) ~= self.SentryTarget then
 		return false
 	end
 	
@@ -127,7 +127,7 @@ function ENT:Think()
 					Trace.start = self:GetPos() + Vector(0, 0, self.Ref.height_gun)
 					Trace.endpos = ent:GetPos()
 					Trace.filter = self
-					Trace.mask = MASK_SOLID //- CONTENTS_GRATE
+					Trace.mask = MASK_SOLID -- - CONTENTS_GRATE
 					Trace = util.TraceLine(Trace) 
 		
 				local selfpos = self:GetPos() + Vector(0, 0, self.Ref.height_gun)

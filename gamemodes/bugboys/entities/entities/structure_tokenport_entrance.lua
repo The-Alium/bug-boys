@@ -2,16 +2,16 @@ AddCSLuaFile("structure_tokenport_entrance.lua")
 
 ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 
 
 
 
 function ENT:SetPartnerEnt( ent )
-	//if SERVER then
+	-- if SERVER then
 		self.ExitEnt = ent
-	//end
+	-- end
 	self:SetNWEntity( "Partner", ent ) 
 end
 
@@ -22,7 +22,7 @@ end
 
 
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ function ENT:Teleport( token )
 	
 	self:Puff( pos )
 	self:EmitSound( SOUND_RECALL_FINISH )
-	//self.ExitEnt:EmitSound( SOUND_RECALL_APPEAR )
+	-- self.ExitEnt:EmitSound( SOUND_RECALL_APPEAR )
 end
 
 
@@ -71,12 +71,12 @@ function ENT:Think()
 		end
 	end
 	
-	if token != nil then
-		//timer.Simple( .5, function()
-			//if not IsValid( token ) then return end
+	if token ~= nil then
+		-- timer.Simple( .5, function()
+			-- if not IsValid( token ) then return end
 			
 			self:Teleport( token )
-		//end)
+		-- end)
 	end
 	
 	self:NextThink( CurTime() + 2 )

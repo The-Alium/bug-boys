@@ -4,7 +4,7 @@ ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -17,8 +17,8 @@ function ENT:Initialize()
 	self:ChangePhysicsModel( self.Ref.model, COLLISION_GROUP_NONE, self.Ref.mass )
 	
 	--set to be slidy
-	//local phys = self.Entity:GetPhysicsObject()
-		//phys:SetMaterial("gmod_ice")
+	-- local phys = self.Entity:GetPhysicsObject()
+		-- phys:SetMaterial("gmod_ice")
 end
 
 

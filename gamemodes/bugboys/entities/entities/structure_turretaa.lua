@@ -4,7 +4,7 @@ ENT.Type 			= "anim"
 ENT.Base 			= "base_bbentity"
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -32,14 +32,14 @@ function ENT:ShootSlider( activator )
 		obj.CreatorSwep = self
 		
 		obj:SetOwner(self.Creator)
-		//obj:SetAngles( self.Owner:EyeAngles() )
+		-- obj:SetAngles( self.Owner:EyeAngles() )
 		obj:Spawn()
 		
 		obj:NoCollideTeam()
 	
 	local Aim = activator:GetAimVector():GetNormalized() 
 
-	local Aim_trunc = Aim //Vector(Aim.x, Aim.y, 0)
+	local Aim_trunc = Aim -- Vector(Aim.x, Aim.y, 0)
 		Aim_trunc = Aim_trunc:GetNormal()
 	
 	local phys = obj:GetPhysicsObject()
@@ -53,13 +53,13 @@ end
 
 
 function ENT:RayTrigger( activator )
-	if !SERVER then return end
+	if not SERVER then return end
 	
 	--if on cooldown..
 	if self.TriggerCooldownTimer > CurTime() then 
-		//local timeleft = self.TriggerCooldownTimer -  CurTime()
-		//activator:ChatPrint( "Ability on cooldown:  " .. RoundNum( timeleft, 1 ) .. " seconds left.." )
-		//activator:PlayLocalSound( "Sound_Failed" )
+		-- local timeleft = self.TriggerCooldownTimer -  CurTime()
+		-- activator:ChatPrint( "Ability on cooldown:  " .. RoundNum( timeleft, 1 ) .. " seconds left.." )
+		-- activator:PlayLocalSound( "Sound_Failed" )
 		return 
 	
 	--if NOT on cooldown..

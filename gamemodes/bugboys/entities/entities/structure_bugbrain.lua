@@ -2,11 +2,11 @@ AddCSLuaFile("structure_bugbrain.lua")
 
 DEFINE_BASECLASS( "base_anim" )
 
-//ENT.Type 			= "anim"
-//ENT.Base 			= "base_bbentity"
-//ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+-- ENT.Type 			= "anim"
+-- ENT.Base 			= "base_bbentity"
+-- ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
-if !SERVER then return end
+if not SERVER then return end
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ end
 function ENT:ShieldEnable( x )
 	if x == true then
 		local obj = ents.Create( "structure_bugbrain_shield" )
-			obj:SetPos( self:GetPos() )//+ Vector(0,0,400) )
+			obj:SetPos( self:GetPos() )-- + Vector(0,0,400) )
 			obj.BBTeam = self.BBTeam
 			obj:Spawn()
 			
@@ -89,7 +89,7 @@ end
 
 
 function ENT:ChangeStaticModel( model, collision )
-	//self:InitializeColor()
+	-- self:InitializeColor()
 	
 	self:SetModel( model )
 	self:SetCollisionGroup( collision )
@@ -101,7 +101,7 @@ end
 
 
 
-//Handle damage
+-- Handle damage
 function ENT:OnTakeDamage( damageinfo )
 	local amount = damageinfo:GetDamage()
 	
@@ -111,7 +111,7 @@ function ENT:OnTakeDamage( damageinfo )
 			PlayGlobalSound( "Sound_TeamScoreWarning", self.BBTeam )
 			for k,ply in pairs(player.GetAll()) do		
 				if ply:Team() == self.BBTeam then
-					ply:BBChatPrint( "Our Bug Brain is under attack!" )
+					ply:BBChatPrint( "Our Bug Brain is under attacknot " )
 				end
 			end
 		end
@@ -139,7 +139,7 @@ function ENT:OnTakeDamage( damageinfo )
 		self.ShieldTimer = CurTime() + self.Ref.time_shield_reform
 	
 		if GetGamePhase() == "BegunGame" then
-			//AddPoints( GetOppositeTeam( self.BBTeam  ), 1 )
+			-- AddPoints( GetOppositeTeam( self.BBTeam  ), 1 )
 			
 			--handle damage
 			local amount = damageinfo:GetDamage()
@@ -173,8 +173,8 @@ function ENT:OnTakeDamage( damageinfo )
 			
 			--do different things depending on if it lost health or gained health
 			if newhealth < health then
-				//local thing = 1-(newhealth/ref.health)
-				//self:EmitSound( "physics/metal/metal_box_break1.wav", 100, 25 + (thing*120), 1, CHAN_AUTO ) 
+				-- local thing = 1-(newhealth/ref.health)
+				-- self:EmitSound( "physics/metal/metal_box_break1.wav", 100, 25 + (thing*120), 1, CHAN_AUTO ) 
 				self:EmitSound("npc/headcrab_poison/ph_pain"..math.random(1, 3)..".wav", 100, 40)
 				
 			elseif newhealth > health then
@@ -201,7 +201,7 @@ end
 function ENT:Break()
 	self:EmitSound("npc/headcrab_fast/die2.wav", 100, 80)
 	self:EmitSound("ambient/explosions/explode_8.wav", 100, 80)
-	//ParticleEffect("ExplosionCore_MidAir",self:GetPos(),Angle(0,0,0),nil)
+	-- ParticleEffect("ExplosionCore_MidAir",self:GetPos(),Angle(0,0,0),nil)
 
 	self:ShieldEnable( false )
 	self:Remove()
