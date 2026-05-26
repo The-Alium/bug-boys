@@ -1,9 +1,7 @@
 --[[
 	Puck class base table
 --]]
-
 PUCK_TABLE = {
-
     puck_smallman = {
         name = "puck_smallman",
         print_name = "Engineer",
@@ -31,168 +29,146 @@ PUCK_TABLE = {
         jump_cooldown = 3,
         noise_cooldown = .7,
         noise_cooldown_scream = 2,
-
+        ungrab_dist = 80,
+        override_ctrl_off = true
+    },
+    puck_blimp = {
+        name = "puck_blimp",
+        print_name = "Blimp",
+        model = "models/bugboys/blimp.mdl",
+        swep = "swep_blimp",
+        health = 125,      --125
+        cam_dist = 250,    --300
+        cam_height = -140, ---100
+        speed_max = 250,   --250
+        mass = 5000,
+        force_add = 10000,
+        force_add_vertical = 13000,
+        momentum_decay = 1,
+        height_spawn = 20,
+        rope_length = 500,
+        craft_dist = 400,
+        zap_dist = 150,
+        zap_trigger_dist = 3000,
+        override_rope = false,
+        override_magnetize = true,
+        override_convert = false,
+        override_ctrl = "Down Thrust",
+        override_shift = "Drop Token",
+        override_e = "Rope"
+    },
+    puck_tank = {
+        name = "puck_tank",
+        print_name = "Tank",
+        -- model = "models/props_wasteland/wheel02b.mdl",
+        model = "models/bugboys/tank.mdl",
+        --model = "models/tacticaltoolgame_models/boulder01.mdl",
+        swep = "swep_tank",
+        health = 250,
+        mass = 5000,
+        cam_dist = 200,   --175
+        cam_height = 90,  --75
+        speed_max = 250,
+        force_add = 3500, --3500
+        momentum_decay = 1,
+        height_spawn = 20,
+        craft_dist = 400,
+        zap_dist = 150,
+        zap_trigger_dist = 3000,
+        radius_weld = 110, --91
+        slowed_speed = 25,
+        override_shift = "Drop Token",
+        ungrab_dist = 130,
+        override_ctrl_off = true
+    },
+    puck_climber = {
+        name = "puck_climber",
+        print_name = "Climber",
+        model = "models/bugboys/climber.mdl",
+        swep = "swep_climber",
+        health = 100,
+        cam_dist = 115,   --130
+        cam_height = 60,  --60
+        speed_max = 270,
+        force_add = 1500, --1500 --1000
+        craft_dist = 300,
+        zap_dist = 100,
+        zap_trigger_dist = 3000,
+        mass = 200,
+        speed_jump = 80000, --70000
+        jump_cooldown = 1.5,
+        height_spawn = 10,
+        radius_weld = 50,           --35
+        dropslam_radius = 250,
+        dropslam_damage = .08,      --.13
+        dropslam_damage_high = .13, --.2
+        sound_dropslam = "ambient/explosions/explode_2.wav",
+        override_e = "Grapple",
+        override_shift = "Drop Token",
+        ungrab_dist = 80,
+        override_ctrl_off = true
+    },
+    puck_rammer = {
+        name = "puck_rammer",
+        print_name = "Rammer",
+        model = "models/bugboys/rammer.mdl",
+        swep = "swep_rammer",
+        health = 100,
+        cam_dist = 100,
+        cam_height = 40,
+        speed_max = 250,
+        speed_max_upper = 1000,
+        force_add = 1000, --1500 --1000
+        rope_length = 500,
+        craft_dist = 300,
+        zap_dist = 100,
+        zap_trigger_dist = 3000,
+        mass = 200,
+        speed_jump = 60000, --70000
+        height_spawn = 10,
+        radius_weld = 40,
+        override_shift = "Drop Token",
+        time_boost = .2,
+        force_boost = 2300,
+        damage_hit = 50,
+        damage_mul_player = .003,
+        damage_mul_structure = .002,
+        ungrab_dist = 80,
+        override_ctrl_off = true
+    },
+    puck_jetpack = {
+        name = "puck_jetpack",
+        print_name = "Jetpacker",
+        model = "models/bugboys/jetpack.mdl",
+        swep = "swep_jetpack",
+        health = 100,    --125
+        cam_dist = 200,  --200
+        cam_height = 60, ---100
+        mass = 200,
+        speed_max = 270,
+        force_add = 1200,
+        force_add_vertical = 2800,
+        momentum_decay = 1,
+        height_spawn = 20,
+        rope_length = 300,
+        craft_dist = 300,
+        zap_dist = 100,
+        zap_trigger_dist = 3000,
+        radius_weld = 40,
+        override_rope = false,
+        override_magnetize = true,
+        override_convert = false,
+        override_shift = "Drop Token",
         ungrab_dist = 80,
         override_ctrl_off = true,
-    },
-
-    --[[
-puck_blimp =
-{
-name = "puck_blimp",
-print_name = "Blimp",
-model = "models/bugboys/blimp.mdl",
-swep = "swep_blimp",
-health = 125, --125
-cam_dist = 250,  --300
-cam_height = -140, ---100
-speed_max = 250, --250
-mass = 5000,
-force_add = 10000,
-force_add_vertical = 13000,
-momentum_decay = 1,
-height_spawn = 20,
-rope_length = 500,
-craft_dist = 400,
-zap_dist = 150,
-override_rope = false,
-override_magnetize = true,
-override_convert = false,
-override_ctrl = "Down Thrust",
-override_shift = "Drop Token",
-override_e = "Rope",
-}
-,
-
-puck_tank =
-{
-name = "puck_tank",
-print_name = "Tank",
--- model = "models/props_wasteland/wheel02b.mdl",
-model = "models/bugboys/tank.mdl",
---model = "models/tacticaltoolgame_models/boulder01.mdl",
-swep = "swep_tank",
-health = 250,
-mass = 5000,
-cam_dist = 200, --175
-cam_height = 90, --75
-speed_max = 250,
-force_add = 3500, --3500
-momentum_decay = 1,
-height_spawn = 20,
-craft_dist = 400,
-zap_dist = 150,
-radius_weld = 110, --91
-slowed_speed = 25,
-override_shift = "Drop Token",
-
-ungrab_dist = 130,
-override_ctrl_off = true,
-}
-,
-
-puck_climber =
-{
-name = "puck_climber",
-print_name = "Climber",
-model = "models/bugboys/climber.mdl",
-swep = "swep_climber",
-health = 100,
-cam_dist = 115,	--130
-cam_height = 60, --60
-speed_max = 270,
-force_add = 1500, --1500 --1000
-craft_dist = 300,
-zap_dist = 100,
-mass = 200,
-speed_jump = 80000, --70000
-jump_cooldown = 1.5,
-height_spawn = 10,
-radius_weld = 50, --35
-dropslam_radius = 250,
-dropslam_damage = .08,	--.13
-dropslam_damage_high = .13,	--.2
-sound_dropslam = "ambient/explosions/explode_2.wav",
-override_e = "Grapple",
-override_shift = "Drop Token",
-
-ungrab_dist = 80,
-override_ctrl_off = true,
-}
-,
-
-
-puck_rammer =
-{
-name = "puck_rammer",
-print_name = "Rammer",
-model = "models/bugboys/rammer.mdl",
-swep = "swep_rammer",
-health = 100,
-cam_dist = 100,
-cam_height = 40,
-speed_max = 250,
-speed_max_upper = 1000,
-force_add = 1000, --1500 --1000
-rope_length = 500,
-craft_dist = 300,
-zap_dist = 100,
-mass = 200,
-speed_jump = 60000, --70000
-height_spawn = 10,
-radius_weld = 40,
-override_shift = "Drop Token",
-
-time_boost = .2,
-force_boost = 2300,
-damage_hit = 50,
-damage_mul_player = .003,
-damage_mul_structure = .002,
-
-ungrab_dist = 80,
-override_ctrl_off = true,
-}
-,
-
-puck_jetpack =
-{
-name = "puck_jetpack",
-print_name = "Jetpacker",
-model = "models/bugboys/jetpack.mdl",
-swep = "swep_jetpack",
-health = 100, --125
-cam_dist = 200,  --200
-cam_height = 60, ---100
-mass = 200,
-speed_max = 270,
-force_add = 1200,
-force_add_vertical = 2800,
-momentum_decay = 1,
-height_spawn = 20,
-rope_length = 300,
-craft_dist = 300,
-zap_dist = 100,
-radius_weld = 40,
-override_rope = false,
-override_magnetize = true,
-override_convert = false,
-override_shift = "Drop Token",
-
-ungrab_dist = 80,
-override_ctrl_off = true,
-
-sound_jet = "npc/manhack/mh_engine_loop1.wav",
-jetpack_multiplier1 = 165, --200
-jetpack_multiplier2 = 115, --130
-jetpack_multiplier3 = 5,
-jetpack_frame_phase1 = 100,
-jetpack_frame_phase2 = 400, --300
-jetpack_cooldown = .5,
-}
-,
-
---]]
-
+        sound_jet = "npc/manhack/mh_engine_loop1.wav",
+        jetpack_multiplier1 = 165, --200
+        jetpack_multiplier2 = 115, --130
+        jetpack_multiplier3 = 5,
+        jetpack_frame_phase1 = 100,
+        jetpack_frame_phase2 = 400, --300
+        jetpack_cooldown = .5
+    }
 }
 
 --recieves an actual ent, not the string name of one

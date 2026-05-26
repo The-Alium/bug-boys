@@ -1,79 +1,188 @@
--- AddCSLuaFile("func_bb_healer.lua")
+AddCSLuaFile( "puck_blimp.lua" )
 
-ENT.Type      = "brush"
-ENT.Base      = "base_anim"
-ENT.PrintName = ""
+ENT.Type = "anim"
+ENT.Base = "base_puck"
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
+-- ENT:Initialize - Initialize stuff --
+function ENT:Initialize()
+    self:SpecialInit()
 
-if not  SERVER then return end
+    if not SERVER then
+        return
+    end
+
+    --give the player this class's SWEP
+    self:GetOwner():Give( self.Ref.swep )
+
+    -- Set model and physics
+    self:SetModel( self.Ref.model )
+    self:PhysicsInit( SOLID_VPHYSICS )
+    self:SetMoveType( MOVETYPE_VPHYSICS )
+    self:SetSolid( SOLID_VPHYSICS )
+    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+
+    -- Wake our physics
+    local phys = self:GetPhysicsObject()
+
+    --blimp has no gravity
+    phys:EnableGravity( false )
+
+    --keepupright test
+    -- constraint.Keepupright( self, phys:GetAngles(), 0, 999999 )
+
+    --set to be slidy
+    --phys:SetMaterial("gmod_ice")
+
+    --2000
+    --4000
+    phys:SetMass( self.Ref.mass )
+
+    if (phys:IsValid()) then
+        phys:Wake()
+    end
+end
+
+if not SERVER then return end
 
 ------------------------------------------------------------------------------------------------
 --all server from now on
 ------------------------------------------------------------------------------------------------
 
--- ENT.TouchingPlyList = {}
-
-
-
-function ENT:Initialize()
-    self.TouchingPlyList = {}
-end
-
-function ENT:EmptyTable()
-    table.Empty( self.TouchingPlyList )
-end
-
-function ENT:StartTouch( entity )
-    if entity:IsValidPuck() then
-        -- if entity.BBTeam == TEAM_RED then
-        table.insert( self.TouchingPlyList, entity )
-        -- end
-    end
-end
-
-function ENT:EndTouch( entity )
-    if entity:IsValidPuck() then
-        -- if entity.BBTeam == TEAM_RED then
-        table.RemoveByValue( self.TouchingPlyList, entity )
-        -- end
-    end
-end
-
+-- ENT:Think - Do our controls & powerups here --
 function ENT:Think()
-    -- print( table.ToString(self.TouchingPlyList) )
-
-    --deal flat damage to an ent
-    local function HealEnt( ent )
-        -- print(ent:Health())
-        local dmginfo = DamageInfo()
-        dmginfo:SetDamage( -3 )
-        -- dmginfo:SetDamageType( DMG_CRUSH )
-        dmginfo:SetInflictor( self )
-        dmginfo:SetAttacker( self )
-        ent:TakeDamageInfo( dmginfo )
+    if self.EnabledInput ~= false then
+        self:DoRope()
+        self:DoCraft( true )
+        self:DoHealHurt()
     end
 
-    --[[
-	local function HurtEnt( ent )
-		local health = ent:Health()
-		print(health)
-		ent:SetHealth( health - 10 )
-	end
-	--]]
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
 
 
-    --hurt all the pucks that are touching the lava
-    for k, ent in pairs( self.TouchingPlyList ) do
-        -- print("hurting:  " .. ent:GetClass())
-        if ent.BBTeam == TEAM_RED then
-            HealEnt( ent )
-        else
-            ent:HurtEnt( 10, self, self )
+    local MelonPhysObj = self:GetPhysicsObject()
+    local Aim = owner:EyeAngles()
+    -- Aim.r = 0
+    -- Aim.p = 0
+
+    -- local velo = self:GetVelocity( )
+    -- local veloxy = Vector(velo.x,velo.y,0)
+    -- local speed = Vector(velo.x,velo.y,0):Length()
+    -- owner:PrintMessage( HUD_PRINTCENTER, tostring(speed) )
+
+    -- We need to update the player position at the puck
+    owner:SetPos( self:GetPos() )
+    self.CurrentPos = self:GetPos()
+
+    local input_thisframe = false
+
+    --2000
+
+    -- local ATICK_FORCE_MULTIPLIER = 1
+
+    local function Movement()
+        -- Check which key is pressed and move accordingly
+        if (owner:KeyDown( IN_FORWARD )) then
+            local Aim = Aim:Forward()
+            Aim = Vector( Aim.x, Aim.y, 0 )
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * Aim * self.Ref.force_add )
+
+            input_thisframe = true
+        end
+
+        if (owner:KeyDown( IN_BACK )) then
+            local Aim = Aim:Forward() * -1
+            Aim = Vector( Aim.x, Aim.y, 0 )
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * Aim * self.Ref.force_add )
+
+            input_thisframe = true
+        end
+
+        if (owner:KeyDown( IN_MOVELEFT )) then
+            local Aim = Aim:Right() * -1
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * Aim * self.Ref.force_add )
+
+            input_thisframe = true
+        end
+
+        if (owner:KeyDown( IN_MOVERIGHT )) then
+            local Aim = Aim:Right()
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * Aim * self.Ref.force_add )
+
+            input_thisframe = true
+        end
+
+        if owner:KeyDown( IN_JUMP ) then
+            local Aim = Aim:Up()
+            Aim = Vector( 0, 0, Aim.z )
+            MelonPhysObj:ApplyForceCenter( Aim * self.Ref.force_add_vertical )
+
+            input_thisframe = true
+        end
+
+        if (owner:KeyDown( IN_DUCK )) then
+            local Aim = -Aim:Up()
+            Aim = Vector( 0, 0, Aim.z )
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * Aim * self.Ref.force_add_vertical )
+
+            input_thisframe = true
+        end
+    end
+    if self.EnabledInput ~= false then
+        Movement()
+    end
+
+    local speed = self:GetVelocity():Length()
+    -- ---------------------------------------------------------------owner:PrintMessage( HUD_PRINTCENTER, tostring(speed) )
+
+    local velo = self:GetVelocity()
+    local velonorm = self:GetVelocity():GetNormal()
+    local veloxy = Vector( velo.x, velo.y, 0 )
+    local veloxynorm = Vector( velo.x, velo.y, 0 ):GetNormal()
+
+    --Decay velocity to lessen momentum if theres no input being held
+    if input_thisframe == false then
+        if speed >= 1 then
+            MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * -velonorm * 10 )
         end
     end
 
+    --add negative vector to prevent the puck from exceeding the maximum speed which is 300
+    -- self.Ref.speed_max = 200
+    if speed > self.Ref.speed_max then
+        -- local normalized_velo = veloxy:GetNormal()
+        -- local neg_vec = -(veloxy - (normalized_velo))
+        local neg_vec = -veloxy
+
+        MelonPhysObj:ApplyForceCenter( TICK_FORCE_MULTIPLIER * neg_vec * 50 )
+    end
+
+    local phys = self:GetPhysicsObject()
+    phys:AddAngleVelocity( -1 * phys:GetAngleVelocity() )
+
+    -- Call the think every frame
+    self:NextThink( CurTime() )
+    return true
 end
 
--- for _, v in pairs(player.GetAll()) do
--- v:PrintMessage(HUD_PRINTTALK, entity:GetName().. " has entered the lua brush area.")
--- end
+--[[
+-- ENT:Hurt - A simple function that handles the damage --
+function ENT:Hurt(Dmg)
+	-- Set HP
+	self.HP = self.HP - Dmg
+
+	-- Set it on the client
+	umsg.Start("sent_melon RecieveHP", self:GetOwner())
+		umsg.Entity(self:GetOwner())
+		umsg.Float(self.HP)
+	umsg.End()
+
+	-- We're dead - break it
+	if (self.HP <= 0) then
+		self:Break()
+	end
+end
+--]]

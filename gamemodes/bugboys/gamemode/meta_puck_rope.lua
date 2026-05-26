@@ -1,3 +1,4 @@
+---@class Entity
 local PuckEnt = FindMetaTable( "Entity" )
 
 
@@ -64,15 +65,20 @@ function PuckEnt:DoRope()
     end
 
 
-    if (self.Owner:KeyDown( IN_USE )) then
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+    if owner:KeyDown( IN_USE ) then
         if (self.RopeTimer < CurTime()) then
-            local Aim = self.Owner:EyeAngles()
+            local Aim = owner:EyeAngles()
             local pos = self:GetPos() + (Aim:Up() * (self.Ref.cam_height - 1))
-            local ang = self.Owner:GetAimVector()
+            local ang = owner:GetAimVector()
             local tracedata = {}
             tracedata.start = pos
             tracedata.endpos = pos + (ang * self.Ref.rope_length)
-            tracedata.filter = self, self.Owner
+            tracedata.filter = { self, owner }
 
             local trace = util.TraceLine( tracedata )
 
@@ -86,7 +92,7 @@ function PuckEnt:DoRope()
             end
 
             --make sure its ok, then rope it
-            if trace.Entity:GetClass() ~= "ent_intermediary_structure" and not  (trace.Entity:GetIfStatic()) then
+            if trace.Entity:GetClass() ~= "ent_intermediary_structure" and not (trace.Entity:GetIfStatic()) then
                 RopeEnt( trace.Entity, trace.HitPos, trace.PhysicsBone )
             end
 
@@ -152,16 +158,21 @@ function PuckEnt:DoRopeWorld()
         table.Empty( self.RopedEntList )
     end
 
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
 
-    if (self.Owner:KeyDown( IN_USE )) then
+    ---@cast owner Player
+
+
+    if owner:KeyDown( IN_USE ) then
         if (self.RopeTimer < CurTime()) then
-            local Aim = self.Owner:EyeAngles()
+            local Aim = owner:EyeAngles()
             local pos = self:GetPos() + (Aim:Up() * (self.Ref.cam_height - 1))
-            local ang = self.Owner:GetAimVector()
+            local ang = owner:GetAimVector()
             local tracedata = {}
             tracedata.start = pos
             tracedata.endpos = pos + (ang * self.Ref.rope_length)
-            tracedata.filter = self, self.Owner
+            tracedata.filter = { self, owner }
 
             local trace = util.TraceLine( tracedata )
 

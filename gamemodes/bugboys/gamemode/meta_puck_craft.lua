@@ -1,7 +1,13 @@
+---@class Entity
 local PuckEnt = FindMetaTable( "Entity" )
 
 
 function PuckEnt:Craft( location, get_angles )
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
 
     --theres a limit to the amount of structures than can be built in the game during warmup
     --just so people dont spam the server with them and lag it out
@@ -17,18 +23,18 @@ function PuckEnt:Craft( location, get_angles )
         end
 
         if count >= PREGAME_STRUCTURE_LIMIT then
-            self.Owner:ChatPrint( "Pregame structure limitation reached.  Can't build." )
+            owner:ChatPrint( "Pregame structure limitation reached.  Can't build." )
             return
         end
     end
 
-    local craft = self.Owner:GetCraft()
+    local craft = owner:GetCraft()
     local craftref = TableReference_Craft( craft )
 
     --first check if they have enough money for it and such
-    if self.Owner:GetTokens() < craftref.crystals_required then
-        self.Owner:ChatPrint( "You don't have enough tokens to construct that structure.  It costs " .. craftref.crystals_required )
-        self.Owner:PlayLocalSound( "Sound_Failed" )
+    if owner:GetTokens() < craftref.crystals_required then
+        owner:ChatPrint( "You don't have enough tokens to construct that structure.  It costs " .. craftref.crystals_required )
+        owner:PlayLocalSound( "Sound_Failed" )
         self.CraftTimer = CurTime() + 1
         return
     end
@@ -36,8 +42,8 @@ function PuckEnt:Craft( location, get_angles )
     --make sure the player is near this location
     local distance = self:GetPos():Distance( location )
     if distance > 600 then
-        self.Owner:ChatPrint( "You are too far from that position" )
-        self.Owner:PlayLocalSound( "Sound_Failed" )
+        owner:ChatPrint( "You are too far from that position" )
+        owner:PlayLocalSound( "Sound_Failed" )
         self.CraftTimer = CurTime() + 1
         return
     end
@@ -55,14 +61,14 @@ function PuckEnt:Craft( location, get_angles )
 
     local function CreateEnt( pos, ang )
         --Trace stuff
-        local Aim = self.Owner:EyeAngles()
+        local Aim = owner:EyeAngles()
         local trpos = self:GetPos() + (Aim:Up() * (self.Ref.cam_height - 1))
-        local ang = self.Owner:GetAimVector()
+        local ang = owner:GetAimVector()
 
         local tracedata = {}
         tracedata.start = trpos
         tracedata.endpos = trpos + (ang * 400)
-        tracedata.filter = self, self.Owner
+        tracedata.filter = { self, owner }
         local trace = util.TraceLine( tracedata )
 
         local hitent = trace.Entity
@@ -75,7 +81,7 @@ function PuckEnt:Craft( location, get_angles )
         local obj = ents.Create( "ent_intermediary_structure" )
         local objref = EntReference( obj:GetClass() )
         obj:SetPos( pos )
-        obj.Creator = self.Owner
+        obj.Creator = owner
         obj.BBTeam = self.BBTeam
         obj.Craft = craft
         obj.CraftRef = craftref
@@ -90,7 +96,7 @@ function PuckEnt:Craft( location, get_angles )
         }
 
         local function GetClosestAng()
-            local eyeangles = self.Owner:EyeAngles()
+            local eyeangles = owner:EyeAngles()
             local decided_ang = nil
             local prev_dif = 1000
             for _, thing in pairs( ang_tbl ) do
@@ -151,9 +157,9 @@ function PuckEnt:Craft( location, get_angles )
 
 
     local function BeginConstruction()
-        self.Owner:EmitSound( TEST_SOUND )
+        owner:EmitSound( TEST_SOUND )
 
-        self.Owner:SubtractTokens( craftref.crystals_required )
+        owner:SubtractTokens( craftref.crystals_required )
 
         CreateEnt( location )
     end
@@ -166,20 +172,24 @@ end
 
 --onlytoken is a boolean that makes the function only craft tokens if its true
 function PuckEnt:DoCraft( onlytoken )
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
 
     --draw a ghost of the building for the player to place it more easily
-    if (self.Owner:KeyDown( IN_SPEED )) then
+    if (owner:KeyDown( IN_SPEED )) then
         --[[
 
 		--Trace stuff
-		local Aim = self.Owner:EyeAngles()
+		local Aim = owner:EyeAngles()
 		local pos = self:GetPos() + (Aim:Up() * ( self.Ref.cam_height - 1))
-		local ang = self.Owner:GetAimVector()
+		local ang = owner:GetAimVector()
 
 		local tracedata = {}
 		tracedata.start = pos
 		tracedata.endpos = pos+(ang * self.Ref.craft_dist)
-		tracedata.filter = self, self.Owner
+		tracedata.filter = self, owner
 		local trace = util.TraceLine(tracedata)
 
 		local hitent = trace.Entity
@@ -189,41 +199,41 @@ function PuckEnt:DoCraft( onlytoken )
 		local showing = false
 
 		if trace.HitWorld and normalz > .8 then
-			self.Owner:SetShowGhost( true )
+			owner:SetShowGhost( true )
 			 showing = true
 
 		elseif trace.HitNonWorld and normalz > 0 then
 			if hitent:GetClass() == "structure_wall" then
-				self.Owner:SetShowGhost( true )
+				owner:SetShowGhost( true )
 				showing = true
 			end
 		end
 
 		if showing == false then
-			self.Owner:SetShowGhost( false )
+			owner:SetShowGhost( false )
 		end
 
 	else
-		self.Owner:SetShowGhost( false )
+		owner:SetShowGhost( false )
 
 	--]]
-        self.Owner:SetShowGhost( true )
+        owner:SetShowGhost( true )
 
     else
-        self.Owner:SetShowGhost( false )
+        owner:SetShowGhost( false )
 
     end
 
     --when the player releases the key, the structure starts to build
-    -- if (self.Owner:KeyDown(IN_SPEED)) then
-    if (self.Owner:KeyReleased( IN_SPEED )) then
-        self.Owner:BBChatPrint( "RELEASED SHIFT" )
+    -- if (owner:KeyDown(IN_SPEED)) then
+    if (owner:KeyReleased( IN_SPEED )) then
+        owner:BBChatPrint( "RELEASED SHIFT" )
 
-        self.Owner:SetShowGhost( false )
+        owner:SetShowGhost( false )
 
         if (self.CraftTimer < CurTime()) then
 
-            local craft = self.Owner:GetCraft()
+            local craft = owner:GetCraft()
             local craftref = TableReference_Craft( craft )
 
             if onlytoken == true then
@@ -232,22 +242,22 @@ function PuckEnt:DoCraft( onlytoken )
             end
 
             --first check if they have enough money for it and such
-            if self.Owner:GetTokens() < craftref.crystals_required then
-                self.Owner:ChatPrint( "You don't have enough tokens to construct that structure.  It costs " .. craftref.crystals_required )
-                self.Owner:PlayLocalSound( "Sound_Failed" )
+            if owner:GetTokens() < craftref.crystals_required then
+                owner:ChatPrint( "You don't have enough tokens to construct that structure.  It costs " .. craftref.crystals_required )
+                owner:PlayLocalSound( "Sound_Failed" )
                 self.CraftTimer = CurTime() + 1
                 return
             end
 
             --Trace stuff
-            local Aim = self.Owner:EyeAngles()
+            local Aim = owner:EyeAngles()
             local pos = self:GetPos() + (Aim:Up() * (self.Ref.cam_height - 1))
-            local ang = self.Owner:GetAimVector()
+            local ang = owner:GetAimVector()
 
             local tracedata = {}
             tracedata.start = pos
             tracedata.endpos = pos + (ang * self.Ref.craft_dist)
-            tracedata.filter = self, self.Owner
+            tracedata.filter = self, owner
             local trace = util.TraceLine( tracedata )
 
             local hitent = trace.Entity
@@ -269,7 +279,7 @@ function PuckEnt:DoCraft( onlytoken )
                 local obj = ents.Create( "ent_intermediary_structure" )
                 local objref = EntReference( obj:GetClass() )
                 obj:SetPos( pos )
-                obj.Creator = self.Owner
+                obj.Creator = owner
                 obj.BBTeam = self.BBTeam
                 obj.Craft = craft
                 --[[
@@ -280,7 +290,7 @@ function PuckEnt:DoCraft( onlytoken )
 					end
 					--]]
 
-                local eyeangles = self.Owner:EyeAngles()
+                local eyeangles = owner:EyeAngles()
                 local newang = Angle( 0, eyeangles.y + 90, 0 )
                 -- local finalang = newang:Forward()
 
@@ -302,16 +312,16 @@ function PuckEnt:DoCraft( onlytoken )
                 --players can only build 1 of teleport entrance/exit
                 if craft == "craft_teleport_entrance" or craft == "craft_teleport_exit" then
                     for k, allent in pairs( ents.GetAll() ) do
-                        if allent.Creator == self.Owner and allent:GetClass() == craftref.ent then
+                        if allent.Creator == owner and allent:GetClass() == craftref.ent then
 
-                            self.Owner:ChatPrint( "You can only build 1 " .. craftref.print_name )
-                            self.Owner:PlayLocalSound( "Sound_Failed" )
+                            owner:ChatPrint( "You can only build 1 " .. craftref.print_name )
+                            owner:PlayLocalSound( "Sound_Failed" )
 
                             return false
-                        elseif allent.Creator == self.Owner and allent:GetClass() == "ent_intermediary_structure" and allent.Ent == craftref.ent then
+                        elseif allent.Creator == owner and allent:GetClass() == "ent_intermediary_structure" and allent.Ent == craftref.ent then
 
-                            self.Owner:ChatPrint( "You can only build 1 " .. craftref.print_name )
-                            self.Owner:PlayLocalSound( "Sound_Failed" )
+                            owner:ChatPrint( "You can only build 1 " .. craftref.print_name )
+                            owner:PlayLocalSound( "Sound_Failed" )
 
                             return false
                         end
@@ -324,10 +334,10 @@ function PuckEnt:DoCraft( onlytoken )
 
             local function BeginConstruction()
                 if VerifyCanBuildThis() then
-                    self.Owner:EmitSound( TEST_SOUND )
+                    owner:EmitSound( TEST_SOUND )
                     BeamEffect( self:GetPos(), trace.HitPos )
 
-                    self.Owner:SubtractTokens( craftref.crystals_required )
+                    owner:SubtractTokens( craftref.crystals_required )
 
                     CreateEnt( trace.HitPos )
                 end

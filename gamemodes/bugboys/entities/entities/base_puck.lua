@@ -18,12 +18,17 @@ function ENT:SpecialInit()
 
     if not SERVER then return end
 
-    self.BBTeam = self.Owner:Team()
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+    self.BBTeam = owner:Team()
     self:SetEntTeamForClient()
 
     --set team color
 
-    if self.Owner:Team() == TEAM_RED then
+    if owner:Team() == TEAM_RED then
         -- self:SetColor(Color(255, 0, 0, 255))
         self:SetSkin( 0 )
     else
@@ -69,10 +74,10 @@ function ENT:InitializeColor()
     -- print("adding color")
 
     --[[
-	if self.Owner:Team() == TEAM_BLUE then
+	if owner:Team() == TEAM_BLUE then
 		-- print("setting color blue")
 		self.BaseColor = Color( 54, 224, 254, 255 )
-	elseif self.Owner:Team() == TEAM_RED then
+	elseif owner:Team() == TEAM_RED then
 		-- print("setting color red")
 		self.BaseColor = Color( 255, 118, 118, 255 )
 	end
@@ -175,10 +180,10 @@ function ENT:OnTakeDamage( damageinfo )
         end
 
         local thing = 1 - (newhealth / ref.health)
-        self.Entity:EmitSound( SOUND_BUG_HURT, 100, 50 + (thing * 150), 1, CHAN_AUTO )
-        -- self.Entity:EmitSound( SOUND_BUG_HURT )
+        self:EmitSound( SOUND_BUG_HURT, 100, 50 + (thing * 150), 1, CHAN_AUTO )
+        -- self:EmitSound( SOUND_BUG_HURT )
     elseif newhealth > health then
-        self.Entity:EmitSound( "buttons/button19.wav" )
+        self:EmitSound( "buttons/button19.wav" )
     end
 
     -- makes it greener depending on how damaged it is
@@ -265,8 +270,8 @@ function ENT:Break()
 
 
                 -- Make them fly forwards
-                -- Chunk:GetPhysicsObject():ApplyForceCenter(self.Entity:GetVelocity() * 3)
-                Chunk:GetPhysicsObject():SetVelocity( self.Entity:GetVelocity() * 1 )
+                -- Chunk:GetPhysicsObject():ApplyForceCenter(self:GetVelocity() * 3)
+                Chunk:GetPhysicsObject():SetVelocity( self:GetVelocity() * 1 )
                 -- Chunk:GetPhysicsObject():ApplyForceCenter(Vector(0,0,300))
                 Chunk:GetPhysicsObject():ApplyForceOffset( Vector( 0, 0, 100 ), Vector( 0, 0, 0 ) )
                 -- Chunk:GetPhysicsObject():SetVelocity( knock_ang * 10000)
@@ -307,7 +312,7 @@ function ENT:Break()
 	--this explosion is just visual
 	local explosion = ents.Create( "env_explosion" )		--/create an explosion and delete the prop
 		explosion:SetPos( self:GetPos() )
-		explosion:SetOwner( self.Owner )
+		explosion:SetOwner( owner )
 		explosion:Spawn()
 		explosion:SetKeyValue("spawnflags","117")
 		explosion:Fire( "Explode", 0, 0 )
@@ -320,11 +325,11 @@ function ENT:Break()
 
 
     --play destruction sound
-    self.Entity:EmitSound( SOUND_BUG_KILL )
+    self:EmitSound( SOUND_BUG_KILL )
 
     --death scream sound
-    self.Entity:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
-    self.Entity:EmitSound( "npc/headcrab_poison/ph_wallpain" .. math.random( 1, 3 ) .. ".wav", 100, 100 )
+    self:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
+    self:EmitSound( "npc/headcrab_poison/ph_wallpain" .. math.random( 1, 3 ) .. ".wav", 100, 100 )
 
 
     --create crystal (the resource of the game), pucks drop these when they die
@@ -337,34 +342,39 @@ function ENT:Break()
     --take away the owner's weapons
     self:RemoveOwnerConnection()
 
-    self.Owner.DeathSpot = self:GetPos()
-    self.Owner:AddToNextRespawn()
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+    owner.DeathSpot = self:GetPos()
+    owner:AddToNextRespawn()
 
 
     if GetGamePhase() == "BegunGame" then
         --take away a life from the teams pool
-        -- RemoveLife( self.Owner:Team() )
+        -- RemoveLife( owner:Team() )
 
-        AddDeathCounter( self.Owner:Team(), 1 )
+        AddDeathCounter( owner:Team(), 1 )
 
         --give the player who killed me a frag, and announce the death
         -- print( self.LatestInflictor )
-        -- DeathAnnounce( self.Owner, self.LatestInflictor, self.LatestAttacker )
-        DeathAnnounce( self.Owner, self.LatestInflictor, self.LatestAttacker )
+        -- DeathAnnounce( owner, self.LatestInflictor, self.LatestAttacker )
+        DeathAnnounce( owner, self.LatestInflictor, self.LatestAttacker )
 
 
         --drop up to 3 tokens on the ground
         --
-        local tokenshave = self.Owner:GetTokens()
+        local tokenshave = owner:GetTokens()
         local tokensdrop = 1
         if tokenshave >= 3 then
-            self.Owner:SubtractTokens( 3 )
+            owner:SubtractTokens( 3 )
             tokensdrop = 3
         elseif tokenshave == 2 then
-            self.Owner:SubtractTokens( 2 )
+            owner:SubtractTokens( 2 )
             tokensdrop = 2
         elseif tokenshave == 1 then
-            self.Owner:SubtractTokens( 1 )
+            owner:SubtractTokens( 1 )
             tokensdrop = 3
         end
 
@@ -379,7 +389,7 @@ function ENT:Break()
         --
     end
 
-    -- DeathAnnounce( self.Owner, self.LatestInflictor, self.LatestAttacker )
+    -- DeathAnnounce( owner, self.LatestInflictor, self.LatestAttacker )
 
 
     -- Remove the puck
@@ -391,12 +401,17 @@ function ENT:Delete( teamswitch )
     --take away the owner's weapons
     self:RemoveOwnerConnection()
 
-    self.Owner.DeathSpot = self:GetPos()
-    if teamswitch ~= true then
-        --instantly respawn
-        self.Owner:AddToNextRespawn( "instant" )
-    else
-        self.Owner:AddToNextRespawn()
+    local owner = self:GetOwner()
+    if owner ~= nil and owner:IsValid() and owner:IsPlayer() then
+        ---@cast owner Player
+
+        owner.DeathSpot = self:GetPos()
+        if teamswitch ~= true then
+            --instantly respawn
+            owner:AddToNextRespawn( "instant" )
+        else
+            owner:AddToNextRespawn()
+        end
     end
 
     -- Remove the puck
@@ -404,7 +419,7 @@ function ENT:Delete( teamswitch )
 end
 
 function ENT:Delete_NoRespawn()
-    print( "deleting with no respawn" .. self.Owner:Name() )
+    -- print( "deleting with no respawn" .. self.Owner:Name() )
 
     --take away the owner's weapons
     self:RemoveOwnerConnection()
@@ -419,16 +434,19 @@ function ENT:RemoveOwnerConnection()
     --make sure this only runs once on death
     if self.RemovedOwner == true then return end
 
-    --remove stuff from the players visual inventory
-    self.Owner:SetHeldEnt( 0 )
+    local owner = self:GetOwner()
+    if owner ~= nil and owner:IsValid() and owner:IsPlayer() then
+        ---@cast owner Player
 
-    --fix the owner, if hes still in the server
-    if IsValid( self.Owner ) then
-        self.Owner:StripWeapons()
-        self.Owner:UnSpectate()
-        self.Owner.Puck = nil
+        --remove stuff from the players visual inventory
+        owner:SetHeldEnt( 0 )
 
-        self.Owner:Spectate( OBS_MODE_ROAMING )
+        --fix the owner, if hes still in the server
+        owner:StripWeapons()
+        owner:UnSpectate()
+        owner.Puck = nil
+
+        owner:Spectate( OBS_MODE_ROAMING )
     end
 
     self.RemovedOwner = true
@@ -439,8 +457,10 @@ function ENT:OnRemove()
 
     self:RemoveOwnerConnection()
 
-    if IsValid( self.Owner ) then
-        self.Owner:RemoveSwepAbilities()
+    local owner = self:GetOwner()
+    if owner ~= nil and owner:IsValid() and owner:IsPlayer() then
+        ---@cast owner Player
+        owner:RemoveSwepAbilities()
     end
 
     if self.RecallSound ~= nil then
@@ -474,12 +494,12 @@ end
 function ENT:PhysicsCollide( Data, PhysObj )
     -- Play sound, depending on speed
     -- if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
-    -- self.Entity:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
+    -- self:EmitSound("physics/rubber/rubber_tire_impact_hard"..math.random(1, 3)..".wav", 100, 100)
     -- end
 
     if ((Data.DeltaTime >= 0.8) and (Data.Speed > 100)) or (Data.Speed > 250) then
         if self.JumpEnabled ~= false then
-            self.Entity:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
+            self:EmitSound( "physics/flesh/flesh_squishy_impact_hard" .. math.random( 1, 4 ) .. ".wav", 100, 100 )
         end
     end
 
@@ -516,7 +536,13 @@ end
 
 --AKA Zap
 function ENT:DoHealHurt()
-    if (self.Owner:KeyDown( IN_DUCK )) then
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+
+    if (owner:KeyDown( IN_DUCK )) then
         if (self.HealHurtTimer < CurTime()) then
             --create a beam effect
             local function BeamEffect( startpt, endpt )
@@ -530,28 +556,28 @@ function ENT:DoHealHurt()
 
             local function SeeIfHurt( ent, reference )
                 --hurt and trigger version
-                if ent.BBTeam ~= self.Owner:Team() and reference.takes_damage == true then
-                    ent:HurtEnt( 10, self, self.Owner )
+                if ent.BBTeam ~= owner:Team() and reference.takes_damage == true then
+                    ent:HurtEnt( 10, self, owner )
                     return true
                 end
             end
 
             local function SeeIfTrigger( ent, reference )
                 --hurt and trigger version
-                if ent.BBTeam == self.Owner:Team() and reference.triggerable == true then
-                    ent:RayTrigger( self.Owner )
+                if ent.BBTeam == owner:Team() and reference.triggerable == true then
+                    ent:RayTrigger( owner )
                     return true
                 end
             end
 
-            local Aim = self.Owner:EyeAngles()
+            local Aim = owner:EyeAngles()
             local pos = self:GetPos() + (Aim:Up() * (self.Ref.cam_height - 1))
-            local ang = self.Owner:GetAimVector()
+            local ang = owner:GetAimVector()
 
             local tracedata = {}
             tracedata.start = pos
             tracedata.endpos = pos + (ang * self.Ref.zap_dist)
-            tracedata.filter = self, self.Owner
+            tracedata.filter = { self, owner }
             local trace = util.TraceLine( tracedata )
 
             local hitent = trace.Entity
@@ -562,7 +588,7 @@ function ENT:DoHealHurt()
 
 
                 if SeeIfHurt( hitent, ref ) then
-                    self.Owner:EmitSound( SOUND_HEALHURT )
+                    owner:EmitSound( SOUND_HEALHURT )
                     BeamEffect( self:GetPos(), trace.HitPos )
                     self.HealHurtTimer = CurTime() + .5
                     return
@@ -570,11 +596,11 @@ function ENT:DoHealHurt()
 
                 --[[
 				--heal and hurt version
-				if ref.takes_damage == true and self.Owner:Team() == hitent.BBTeam then
-					hitent:HurtEnt( -3, self, self.Owner )
+				if ref.takes_damage == true and owner:Team() == hitent.BBTeam then
+					hitent:HurtEnt( -3, self, owner )
 					BeamEffect( self:GetPos(), trace.HitPos )
-				elseif ref.takes_damage == true and GetOppositeTeam( self.Owner:Team() ) == hitent.BBTeam then
-					hitent:HurtEnt( 7, self, self.Owner )
+				elseif ref.takes_damage == true and GetOppositeTeam( owner:Team() ) == hitent.BBTeam then
+					hitent:HurtEnt( 7, self, owner )
 					BeamEffect( self:GetPos(), trace.HitPos )
 				end
 				--]]
@@ -583,7 +609,7 @@ function ENT:DoHealHurt()
             local tracedata = {}
             tracedata.start = pos
             tracedata.endpos = pos + (ang * self.Ref.zap_trigger_dist)
-            tracedata.filter = self, self.Owner
+            tracedata.filter = { self, owner }
             local trace = util.TraceLine( tracedata )
 
             local hitent = trace.Entity
@@ -594,7 +620,7 @@ function ENT:DoHealHurt()
 
 
                 if SeeIfTrigger( hitent, ref ) then
-                    self.Owner:EmitSound( SOUND_HEALHURT )
+                    owner:EmitSound( SOUND_HEALHURT )
                     BeamEffect( self:GetPos(), trace.HitPos )
                     self.HealHurtTimer = CurTime() + .5
                     return
@@ -613,14 +639,14 @@ end
 --this is called when the player presses 1 its all set up clientside cause
 function ENT:Abil_Trigger()
 	if (self.TriggerTimer < CurTime()) then
-		local Aim = self.Owner:EyeAngles()
+		local Aim = owner:EyeAngles()
 		local pos = self:GetPos() + (Aim:Up() * ( self.Ref.cam_height - 1))
-		local ang = self.Owner:GetAimVector()
+		local ang = owner:GetAimVector()
 
 		local tracedata = {}
 		tracedata.start = pos
 		tracedata.endpos = pos+(ang * 15000)
-		tracedata.filter = self, self.Owner
+		tracedata.filter = {self, owner}
 		local trace = util.TraceLine(tracedata)
 
 		--needs to hit a valid ent in the first place. not the world
@@ -635,8 +661,8 @@ function ENT:Abil_Trigger()
 		if CheckIfInEntTable(hitent) then
 			local ref = EntReference( hitent:GetClass() )
 			--trigger it if its triggerable
-			if ref.triggerable == true and self.Owner:Team() == hitent.BBTeam then
-				hitent:RayTrigger( self.Owner )
+			if ref.triggerable == true and owner:Team() == hitent.BBTeam then
+				hitent:RayTrigger( owner )
 			end
 		end
 
@@ -647,9 +673,18 @@ end
 
 
 function ENT:RecallCancel()
-    timer.Remove( "RecallTimer_" .. self.Owner:UniqueID() )
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+
+    timer.Remove( "RecallTimer_" .. owner:UniqueID() )
+
     self:EnableInput( true )
-    self.Owner:GetActiveWeapon():Enable()
+
+    owner:GetActiveWeapon():Enable()
+
     if self.RecallSound ~= nil then
         self.RecallSound:Stop()
     end
@@ -663,16 +698,23 @@ end
 function ENT:Abil_Recall()
     if self.Recalling == true then return end
 
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+
     self.Recalling = true
     self.RecallSound = CreateSound( self, SOUND_RECALL_LOOP )
     self.RecallSound:Play()
 
-    self.Owner:GetActiveWeapon():Disable()
+
+    owner:GetActiveWeapon():Disable()
     self:EnableInput( false )
 
     local glow = ents.Create( "env_smoketrail" )
     glow:SetPos( self:GetPos() )
-    glow:SetOwner( self.Owner )
+    glow:SetOwner( owner )
     glow:SetParent( self )
     glow:Spawn()
     glow:SetKeyValue( "startcolor", "176 255 216" )
@@ -689,7 +731,7 @@ function ENT:Abil_Recall()
     self.Glow = glow
 
 
-    timer.Create( "RecallTimer_" .. self.Owner:UniqueID(), TIME_RECALL, 1, function()
+    timer.Create( "RecallTimer_" .. owner:UniqueID(), TIME_RECALL, 1, function()
         if not IsValid( self ) then return end
 
         self:EmitSound( SOUND_RECALL_FINISH )
@@ -699,7 +741,7 @@ function ENT:Abil_Recall()
 
         --old way-----------------------------------
         -- self:Delete_NoRespawn()
-        -- self.Owner:Spawn()
+        -- owner:Spawn()
 
 
 
@@ -723,7 +765,7 @@ function ENT:Abil_Recall()
         self:SetPos( chosen:GetPos() )
 
         self:EnableInput( true )
-        self.Owner:GetActiveWeapon():Enable()
+        owner:GetActiveWeapon():Enable()
         if self.RecallSound ~= nil then
             self.RecallSound:Stop()
         end
@@ -731,14 +773,14 @@ function ENT:Abil_Recall()
         local physobj = self:GetPhysicsObject()
         physobj:Wake()
 
-        local vec1 = Vector( 0, 0, 0 )                   -- Where we're looking at
-        local vec2 = self.Owner:GetShootPos()            -- The player's eye pos
-        self.Owner:SetEyeAngles( (vec1 - vec2):Angle() ) -- Sets to the angle between the two vectors
+        local vec1 = Vector( 0, 0, 0 )              -- Where we're looking at
+        local vec2 = owner:GetShootPos()            -- The player's eye pos
+        owner:SetEyeAngles( (vec1 - vec2):Angle() ) -- Sets to the angle between the two vectors
 
 
 
 
-        self.Owner:EmitSound( SOUND_RECALL_APPEAR )
+        owner:EmitSound( SOUND_RECALL_APPEAR )
 
         self.Recalling = false
     end )
@@ -784,9 +826,15 @@ end
 
 --creates a little puff of smoke at the position
 function ENT:Puff( pos, timelast, colorstring, startsize_set, endsize_set )
+    local owner = self:GetOwner()
+    if owner == nil or not (owner:IsValid() and owner:IsPlayer()) then return end
+
+    ---@cast owner Player
+
+
     local time = timelast
     if time == nil then
-        time = .3
+        time = 0.3
     end
 
     local color = colorstring
@@ -806,7 +854,7 @@ function ENT:Puff( pos, timelast, colorstring, startsize_set, endsize_set )
 
     local glow = ents.Create( "env_smoketrail" )
     glow:SetPos( pos )
-    glow:SetOwner( self.Owner )
+    glow:SetOwner( owner )
     glow:SetParent( self )
     glow:Spawn()
     glow:SetKeyValue( "startcolor", color )
