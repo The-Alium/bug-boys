@@ -1,6 +1,23 @@
 ---@class Entity
 local PuckEnt = FindMetaTable( "Entity" )
 
+local function getAmount( class, team )
+    local c = 0
+    for _, v in ipairs( ents.FindByClass(class) ) do
+        if v.BBTeam == team then
+            c = c + 1
+        end
+    end
+
+    for _, v in ents.Iterator() do
+        if v.craftref and v.craftref.ent == class and v.BBTeam == team then
+            c = c + 1
+        end
+    end
+
+    return c
+end
+
 
 function PuckEnt:Craft( location, get_angles )
     local owner = self:GetOwner()
@@ -43,6 +60,13 @@ function PuckEnt:Craft( location, get_angles )
     local distance = self:GetPos():Distance( location )
     if distance > 600 then
         owner:ChatPrint( "You are too far from that position" )
+        owner:PlayLocalSound( "Sound_Failed" )
+        self.CraftTimer = CurTime() + 1
+        return
+    end
+
+    if craftref.max_per_team and #getAmount(craftref.ent, self.BBTeam) > craftref.max_per_team then
+        owner:ChatPrint( "Max amount: " ..craftref.max_per_team )
         owner:PlayLocalSound( "Sound_Failed" )
         self.CraftTimer = CurTime() + 1
         return
@@ -157,6 +181,10 @@ function PuckEnt:Craft( location, get_angles )
 
 
     local function BeginConstruction()
+        if craftref.max_per_team and #getAmount(craftref.ent, self.BBTeam) > craftref.max_per_team then
+            return
+        end
+
         owner:EmitSound( TEST_SOUND )
 
         owner:SubtractTokens( craftref.crystals_required )
@@ -333,6 +361,10 @@ function PuckEnt:DoCraft( onlytoken )
 
 
             local function BeginConstruction()
+                if craftref.max_per_team and #getAmount(craftref.ent, self.BBTeam) + 1 > craftref.max_per_team then
+                    return
+                end
+
                 if VerifyCanBuildThis() then
                     owner:EmitSound( TEST_SOUND )
                     BeamEffect( self:GetPos(), trace.HitPos )

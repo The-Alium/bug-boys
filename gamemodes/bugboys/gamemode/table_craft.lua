@@ -1,17 +1,7 @@
 CRAFT_TABLE = {
-    -- craft_rope = {
-    --     name = "craft_rope",
-    --     print_name = "Upgrade: Rope",
-    --     ent = "structure_rope",
-    --     spawn_height = 32,
-    --     craft_time = 5,
-    --     crystals_required = 5,
-    --     description = "",
-    --     cant_into_walls = true,
-    --     cant_into_walls_dist = 32,
-    -- },
 
-    craft_quickport = {
+    craft_quickport =
+    {
         name = "craft_quickport",
         print_name = "Support: Quickport",
         ent = "structure_quickport",
@@ -24,7 +14,8 @@ CRAFT_TABLE = {
         on_zap_description = "Teleport to the quickport",
     },
 
-    craft_dispenser = {
+    craft_dispenser =
+    {
         name = "craft_dispenser",
         print_name = "Support: Healer",
         ent = "structure_dispenser",
@@ -37,7 +28,8 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    craft_ammoamp = {
+    craft_ammoamp =
+    {
         name = "craft_ammoamp",
         print_name = "Ammo Amp",
         ent = "structure_ammoamp",
@@ -48,7 +40,8 @@ CRAFT_TABLE = {
         display_grabbable = true,
     },
 
-    craft_wall = {
+    craft_wall =
+    {
         name = "craft_wall",
         print_name = "Base: Wall",
         ent = "structure_wall",
@@ -61,7 +54,8 @@ CRAFT_TABLE = {
         on_zap_description = "Temporarily disable",
     },
 
-    craft_token = {
+    craft_token =
+    {
         name = "craft_token",
         print_name = "Token",
         ent = "structure_token",
@@ -72,25 +66,15 @@ CRAFT_TABLE = {
         description = "1 unit of token currency in physical form",
     },
 
-    -- craft_bomb = {
-    --     name = "craft_bomb",
-    --     print_name = "Bug-Bomb",
-    --     ent = "structure_bomb",
-    --     spawn_height = 48,
-    --     craft_time = 7,
-    --     crystals_required = 2,
-    --     description = "TEST TEST \nTEST TEST",
-    --     not_in_shop = false,
-    -- },
-
-    craft_bombtime = {
+    craft_bombtime =
+    {
         name = "craft_bombtime",
         print_name = "Weapon: C4",
         ent = "structure_bombtime",
         spawn_height = 32,
         craft_time = 15,
         crystals_required = 3,
-        description = "Mobile bomb that explodes after 17 sec countdown \n350 damage, 700 radius, Dmg goes through walls \nOn zap:  Start the fuse of the timebomb",
+        description = "Mobile bomb that explodes after 8 sec countdown \n350 damage, 700 radius, Dmg goes through walls \nOn zap:  Start the fuse of the timebomb",
         not_in_shop = false,
         display_grabbable = true,
         cant_into_walls = true,
@@ -98,27 +82,9 @@ CRAFT_TABLE = {
         on_zap_description = "Light the fuse",
     },
 
-    -- craft_sentry = {
-    --     name = "craft_sentry",
-    --     print_name = "Sentry",
-    --     ent = "structure_sentry",
-    --     spawn_height = 0, --48
-    --     craft_time = 15,
-    --     crystals_required = 6,
-    --     description = "Shoots nearby enemy bugs it sees \n1200 Radius",
-    -- },
 
-    -- craft_sentryaa = {
-    --     name = "craft_sentryaa",
-    --     print_name = "Sentry-AA",
-    --     ent = "structure_sentryaa",
-    --     spawn_height = 48,
-    --     craft_time = 15,
-    --     crystals_required = 5,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
-
-    craft_tokengenerator = {
+    craft_tokengenerator =
+    {
         name = "craft_tokengenerator",
         print_name = "Token Generator",
         ent = "structure_tokengenerator",
@@ -126,12 +92,14 @@ CRAFT_TABLE = {
         spawn_height = 32,
         craft_time = 5,
         crystals_required = 5,
+        max_per_team = 7,
         description = "Generates 1 token every 60 seconds \n(The tokens spawn on top of it)",
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
 
-    craft_fortifier = {
+    craft_fortifier =
+    {
         name = "craft_fortifier",
         print_name = "Support: Fortifier",
         ent = "structure_fortifier",
@@ -145,7 +113,9 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    craft_radar = {
+    --
+    craft_radar =
+    {
         name = "craft_radar",
         print_name = "Support: Radar",
         ent = "structure_radar",
@@ -158,8 +128,10 @@ CRAFT_TABLE = {
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
+    --
 
-    craft_artillery = {
+    craft_artillery =
+    {
         name = "craft_artillery",
         print_name = "Sentry: Sieger",
         ent = "structure_artillery",
@@ -170,29 +142,8 @@ CRAFT_TABLE = {
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
-
-    -- craft_goalball = {
-    --     name = "craft_goalball",
-    --     print_name = "Goal Ball",
-    --     ent = "structure_goalball",
-    --     spawn_height = 48,
-    --     craft_time = 60, --30
-    --     crystals_required = 2,
-    --     description = "TEST TEST \nTEST TEST",
-    --     display_grabbable = true,
-    -- },
-
-    -- craft_robobomb = {
-    --     name = "craft_robobomb",
-    --     print_name = "RoboBomb",
-    --     ent = "structure_robobomb",
-    --     spawn_height = 48,
-    --     craft_time = 15,
-    --     crystals_required = 3,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
-
-    craft_teleport_entrance = {
+    craft_teleport_entrance =
+    {
         name = "craft_teleport_entrance",
         print_name = "Teleport Entrance",
         ent = "structure_teleport_entrance",
@@ -207,7 +158,8 @@ CRAFT_TABLE = {
         on_zap_description = "Teleport",
     },
 
-    craft_teleport_exit = {
+    craft_teleport_exit =
+    {
         name = "craft_teleport_exit",
         print_name = "Teleport Exit",
         ent = "structure_teleport_exit",
@@ -221,7 +173,8 @@ CRAFT_TABLE = {
         partner_display = "Entrance",
     },
 
-    craft_teleport = {
+    craft_teleport =
+    {
         name = "craft_teleport",
         print_name = "Support: Teleporter",
         ent = "structure_teleport",
@@ -232,16 +185,6 @@ CRAFT_TABLE = {
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
-
-    -- craft_cloud = {
-    --     name = "craft_cloud",
-    --     print_name = "Cloud",
-    --     ent = "structure_cloud",
-    --     spawn_height = 48,
-    --     craft_time = 15,
-    --     crystals_required = 4,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
 
     craft_ramp =
     {
@@ -256,62 +199,36 @@ CRAFT_TABLE = {
         on_zap_description = "Temporarily disable",
     },
 
-    -- craft_turret = {
-    --     name = "craft_turret",
-    --     print_name = "Turret",
-    --     ent = "structure_turret",
-    --     spawn_height = 8,
-    --     craft_time = 15,
-    --     crystals_required = 4,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
-
-    -- craft_bridge = {
-    --     name = "craft_bridge",
-    --     print_name = "Bridge",
-    --     ent = "structure_bridge",
-    --     spawn_height = 0,
-    --     craft_time = 15,
-    --     crystals_required = 2,
-    --     sets_angles = true,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
-
-    -- craft_turretaa = {
-    --     name = "craft_turretaa",
-    --     print_name = "Turret (AA)",
-    --     ent = "structure_turretaa",
-    --     spawn_height = 96,
-    --     craft_time = 15,
-    --     crystals_required = 4,
-    --     description = "TEST TEST \nTEST TEST",
-    -- },
-
-    craft_heatseeker = {
+    craft_heatseeker =
+    {
         name = "craft_heatseeker",
         print_name = "Sentry: Anti-Vehicle",
         ent = "structure_heatseeker",
         spawn_height = 0,
         craft_time = 15, --15
+        max_per_team = 4,
         crystals_required = 5,
         description = "Shoots slow moving missile balls at enemy vehicles \nThe missiles explode after 12 seconds  \n2500 radius",
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
 
-    craft_heatsentry = {
+    craft_heatsentry =
+    {
         name = "craft_heatsentry",
         print_name = "Sentry: Anti-Bug",
         ent = "structure_heatsentry",
         spawn_height = 0,
         craft_time = 15, --15
         crystals_required = 5,
+        max_per_team = 4,
         description = "Shoots slow moving missile balls at enemy bugs \nThe missiles explode after 3 seconds  \n700 radius",
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
 
-    craft_boat = {
+    craft_boat =
+    {
         name = "craft_boat",
         print_name = "Vehicle: Carrier",
         ent = "structure_boat",
@@ -323,7 +240,8 @@ CRAFT_TABLE = {
         on_zap_description = "Get on/off",
     },
 
-    craft_blimp = {
+    craft_blimp =
+    {
         name = "craft_blimp",
         print_name = "Vehicle: Airship",
         ent = "structure_blimp",
@@ -334,7 +252,8 @@ CRAFT_TABLE = {
         description = "A 100 hp flying vehicle you can ride on \nYou cannot shoot while attached to the airship \nHold ALT to move down \nZap the airship to attach/detach from it  \nCan carry up to 4 bugs",
     },
 
-    craft_chopper = {
+    craft_chopper =
+    {
         name = "craft_chopper",
         print_name = "Vehicle: Chopper",
         ent = "structure_chopper",
@@ -345,42 +264,48 @@ CRAFT_TABLE = {
         description = "A 100 hp flying vehicle you can ride on \nShoots missiles that hurt bugs and vehicles \nZap it to attach/detach from it",
     },
 
-    craft_plane = {
+    craft_plane =
+    {
         name = "craft_plane",
         print_name = "Vehicle: Jet",
         ent = "structure_plane",
         spawn_height = 48,
         special_ang = Angle( 0, 0, 90 ),
         craft_time = 20, --15
-        crystals_required = 10,
+        crystals_required = 20,
         description = "A 100 hp flying vehicle you can ride on \nShoots missiles that hurt bugs and vehicles \nZap it to attach/detach from it",
     },
 
-    craft_scout = {
+    craft_scout =
+    {
         name = "craft_scout",
         print_name = "Vehicle: Rammer",
         ent = "structure_scout",
         spawn_height = 48,
         special_ang = Angle( 0, 0, 90 ),
         craft_time = 10, --15
-        crystals_required = 5,
+        crystals_required = 8,
         description = "A small 150 hp ground vehicle you can ride on \nIt's immune to water \nIt's very fast: 700 units per sec \nZap it to attach/detach from it \nOnly carries 1 bug \nRams enemy bugs/vehicles for 75 damage",
         on_zap_description = "Get on/off",
     },
 
-    craft_destroyer = {
+    --
+    craft_destroyer =
+    {
         name = "craft_destroyer",
         print_name = "Vehicle: Destroyer",
         ent = "structure_destroyer",
         spawn_height = 48,
         special_ang = Angle( 0, 0, 90 ),
         craft_time = 10, --15
-        crystals_required = 7,
+        crystals_required = 6,
         description = "A large 200 hp ground vehicle you can ride on \nIt's immune to water \nIt has tank-like controls, \nShoots rapid fire missiles that hurt structures/bugs/vehicles \nZap it to attach/detach from it \nOnly carries 1 bug",
         on_zap_description = "Get on/off",
     },
+    --
 
-    craft_jumppad = {
+    craft_jumppad =
+    {
         name = "craft_jumppad",
         print_name = "Support: Spring",
         ent = "structure_jumppad",
@@ -393,7 +318,9 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    craft_sapper = {
+    --
+    craft_sapper =
+    {
         name = "craft_sapper",
         print_name = "Weapon: Sapper",
         ent = "structure_sapper",
@@ -406,18 +333,8 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    -- craft_gainer = {
-    --     name = "craft_gainer",
-    --     print_name = "Gainer",
-    --     ent = "structure_gainer",
-    --     spawn_height = 48,
-    --     craft_time = 10,
-    --     crystals_required = 5,
-    --     description = "TEST TEST \nTEST TEST",
-    --     display_grabbable = true,
-    -- },
-
-    craft_tokenport_entrance = {
+    craft_tokenport_entrance =
+    {
         name = "craft_tokenport_entrance",
         print_name = "Token Harvester Entrance",
         ent = "structure_tokenport_entrance",
@@ -431,7 +348,8 @@ CRAFT_TABLE = {
         partner_display = "Exit",
     },
 
-    craft_tokenport_exit = {
+    craft_tokenport_exit =
+    {
         name = "craft_tokenport_exit",
         print_name = "Token Harvester Exit",
         ent = "structure_tokenport_exit",
@@ -445,7 +363,8 @@ CRAFT_TABLE = {
         partner_display = "Entrance",
     },
 
-    craft_tokenport = {
+    craft_tokenport =
+    {
         name = "craft_tokenport",
         print_name = "Token Harvester",
         ent = "structure_tokenport",
@@ -457,21 +376,24 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    craft_bugbrain = {
+    craft_bugbrain =
+    {
         name = "craft_bugbrain",
         print_name = "Bug Brain",
         ent = "structure_bugbrain",
         not_in_shop = true,
     },
 
-    craft_bugbrain_shield = {
+    craft_bugbrain_shield =
+    {
         name = "craft_bugbrain_shield",
         print_name = "Shielded Bug Brain",
         ent = "structure_bugbrain_shield",
         not_in_shop = true,
     },
 
-    craft_rocket = {
+    craft_rocket =
+    {
         name = "craft_rocket",
         print_name = "Upgrade: Rocket",
         ent = "structure_rocket",
@@ -482,41 +404,20 @@ CRAFT_TABLE = {
         display_grabbable = true,
     },
 
-    -- craft_repair =
-    -- {
-    --     name = "craft_repair",
-    --     print_name = "Upgrade: Repair",
-    --     ent = "structure_repair",
-    --     spawn_height = 48,
-    --     craft_time = 10,
-    --     crystals_required = 4,
-    --     description = "",
-    --     display_grabbable = true,
-    -- },
-
-    craft_turret_vehicle = {
+    craft_turret_vehicle =
+    {
         name = "craft_turret_vehicle",
         print_name = "Vehicle: Turret",
         ent = "structure_turret_vehicle",
         spawn_height = 0,
-        craft_time = 15,
+        craft_time = 15, --15
         crystals_required = 4,
         description = "A static 200 hp ground turret you can get on top of \nIt shoots missiles that hurt enemy bugs/vehicles \nZap it to attach/detach from it",
         on_zap_description = "Get on/off",
     },
 
-    -- craft_shieldgenerator ={
-    --     name = "craft_shieldgenerator",
-    --     print_name = "Shield Generator",
-    --     ent = "structure_shieldgenerator",
-    --     spawn_height = 32,
-    --     craft_time = 10,
-    --     crystals_required = 4,
-    --     description = "",
-    --     display_grabbable = true,
-    -- },
-
-    craft_dropship = {
+    craft_dropship =
+    {
         name = "craft_dropship",
         print_name = "Vehicle: Dropship",
         ent = "structure_dropship",
@@ -528,7 +429,8 @@ CRAFT_TABLE = {
         on_zap_description = "Get on/off",
     },
 
-    craft_elevator = {
+    craft_elevator =
+    {
         name = "craft_elevator",
         print_name = "Support: Elevator",
         ent = "structure_elevator",
@@ -541,31 +443,35 @@ CRAFT_TABLE = {
         cant_into_walls_dist = 32,
     },
 
-    craft_deconstructor = {
+    craft_deconstructor =
+    {
         name = "craft_deconstructor",
         print_name = "Upgrade: Deconstruct",
         ent = "structure_deconstructor",
         spawn_height = 32,
         craft_time = 5, --10
         crystals_required = 3,
+        description = "",
         display_grabbable = true,
         description = "While grabbed: gives you the ability to deconstruct stuff \nYou can only deconstruct structures you created \nBound to R key \nReturns the token value of the structure minus 1",
         cant_into_walls = true,
         cant_into_walls_dist = 32,
     },
 
-    craft_nade = {
+    craft_nade =
+    {
         name = "craft_nade",
         print_name = "Upgrade: Nade",
         ent = "structure_nade",
         spawn_height = 32,
         craft_time = 10, --10
         crystals_required = 5,
+        description = "",
         display_grabbable = true,
         description = "While grabbed: replaces your sliders with nades \nNades have a bigger damage/knockback radius \nNades explode on impact",
         cant_into_walls = true,
         cant_into_walls_dist = 32,
-    }
+    },
 }
 
 --recieves the string name of a craftable
