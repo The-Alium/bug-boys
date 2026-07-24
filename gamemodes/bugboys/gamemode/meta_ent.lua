@@ -139,7 +139,7 @@ function TTGEnt:IsInFountain()
 
     for k, ent in pairs( ents.GetAll() ) do
         if ent:GetClass() == entclass then
-            for _, puck in pairs( ent.TouchingPlyList ) do
+            for _, puck in pairs( ent.TouchingPlyList or {} ) do
                 if self == puck then
                     return true
                 end
