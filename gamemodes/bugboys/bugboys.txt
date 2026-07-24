@@ -14,7 +14,7 @@
 			"text"		"Pub Mode (no readying-up)"
 			"help"		"Auto starts the game after 1 min if both teams have players (disables readying up)"
 			"type"		"CheckBox"
-			"default"	"0"
+			"default"	"1"
 		}
 
 		2
@@ -25,7 +25,7 @@
 			"type"		"Numeric"
 			"default"	"1200"
 		}
-		
+
 		3
 		{
 			"name"		"bb_var_setuptime"
@@ -34,7 +34,7 @@
 			"type"		"Numeric"
 			"default"	"150"
 		}
-		
+
 		4
 		{
 			"name"		"bb_var_startingtokens"
