@@ -8,7 +8,7 @@
 --called when a player first enters the server
 function GM:PlayerInitialSpawn( ply )
     ply:SetTeam( TEAM_BLUE )
-    ply:PrintMessage( HUD_PRINTTALK, "Welcome, " .. ply:Name() .. "not " )
+    ply:PrintMessage( HUD_PRINTTALK, "Welcome, " .. ply:Name() .. "! " )
     ply:TeamMenu_Open()
 
     --this data is stored even inbetween game rounds, its only reset when the player leaves the server
@@ -65,7 +65,7 @@ function RespawnPlayersCheck()
         if ply:Team() ~= TEAM_SPEC then
             if ply.RespawnTime ~= nil and CurTime() >= ply.RespawnTime then
                 ply:Spawn()
-                ply:ChatPrint( "Spawning NOWnot " )
+                ply:ChatPrint( "Spawning NOW! " )
                 ply.RespawnTime = nil
             end
         end
