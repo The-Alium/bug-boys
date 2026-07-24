@@ -23,6 +23,7 @@ function ShowQuickMenu()
     CraftColumn:SetMultiSelect( false )
     CraftColumn:AddColumn( "Structure" )
     CraftColumn:AddColumn( "Cost" )
+    CraftColumn:AddColumn( "Limit" )
 
     -- the text that displays what tool is selected in the list
     local SelectedToolText = vgui.Create( "DLabel", DermaPanel )
@@ -43,7 +44,7 @@ function ShowQuickMenu()
     --add all craftables to this collumn
     for _, craftable in pairs( CRAFT_TABLE ) do
         if craftable.not_in_shop ~= true then
-            CraftColumn:AddLine( craftable.print_name, craftable.crystals_required )
+            CraftColumn:AddLine( craftable.print_name, craftable.crystals_required, craftable.limit or "-" )
         end
     end
 

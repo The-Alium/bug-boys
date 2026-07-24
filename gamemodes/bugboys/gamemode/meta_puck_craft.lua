@@ -1,6 +1,46 @@
 ---@class Entity
 local PuckEnt = FindMetaTable( "Entity" )
 
+local function calcLimit( class, limit, t )
+    local tbl = ents.FindByClass( class )
+
+    if limit == 1 then
+        limit = limit - 1
+    end
+
+    local c = 0
+    for i = 1, #tbl do
+        local ent = tbl[ i ]
+
+        ---@diagnostic disable-next-line: undefined-field
+        if ent and ent.BBTeam == t then
+            c = c + 1
+
+            if c >= limit then
+                return true
+            end
+        end
+    end
+
+    local tbl2 = ents.FindByClass( "ent_intermediary_structure" )
+
+    for i = 1, #tbl2 do
+        local ent = tbl2[ i ]
+
+        ---@diagnostic disable-next-line: undefined-field
+        local craftref = ent and ent.CraftRef
+        ---@diagnostic disable-next-line: undefined-field
+        if craftref and craftref.ent == class and ent.BBTeam == t then
+            c = c + 1
+
+            if c >= limit then
+                return true
+            end
+        end
+    end
+
+    return false
+end
 
 function PuckEnt:Craft( location, get_angles )
     local owner = self:GetOwner()
@@ -46,6 +86,15 @@ function PuckEnt:Craft( location, get_angles )
         owner:PlayLocalSound( "Sound_Failed" )
         self.CraftTimer = CurTime() + 1
         return
+    end
+
+    local limit = craftref.limit
+    if limit then
+        if calcLimit( craftref.ent, limit, owner:Team() ) then
+            owner:ChatPrint( string.format( "Limit for structure, maximum %s", limit ) )
+            return
+        end
+
     end
 
     --create a beam effect
